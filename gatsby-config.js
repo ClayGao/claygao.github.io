@@ -186,7 +186,7 @@ module.exports = {
         background_color: '#FFF',
         theme_color: '#F7A046',
         display: 'standalone',
-        icon: 'static/icon.png'
+        icon: 'static/favicon-32x32.png'
       },
     },
     {
