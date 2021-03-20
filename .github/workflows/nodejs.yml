@@ -5,7 +5,7 @@ name: Blog CI/CD
 
 on:
   push:
-    branches: [ source ]
+    branches: [ master ]
   pull_request:
     branches: [ master ]
 
