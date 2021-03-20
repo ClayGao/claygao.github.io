@@ -6,7 +6,7 @@
   "scripts": {
     "develop": "yarn clean && gatsby develop",
     "build": "yarn clean && gatsby build",
-    "deploy": "yarn clean && gatsby build --prefix-paths && gh-pages -d public",
+    "deploy": "yarn clean && gatsby build && gh-pages -d public -b master -r https://$GH_TOKEN@github.com/ClayGao/claygao.github.io.git",
     "clean": "rimraf .cache public",
     "flow": "flow",
     "lint:js": "eslint --cache --ext .js,.jsx .",
@@ -110,7 +110,7 @@
     "jest": "26.6.3",
     "jest-cli": "26.6.3",
     "lost": "8.3.1",
-    "postcss-pxtorem": "6.0.0",
+    "postcss-pxtorem": "^5.1.1",
     "react-test-renderer": "17.0.1",
     "rimraf": "3.0.2",
     "sass": "^1.32.8",
