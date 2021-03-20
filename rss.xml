@@ -1,0 +1,693 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Blog by Clay Gao]]></title><description><![CDATA[阿姨我不想努力了]]></description><link>https://blog.claygao.tw/</link><generator>GatsbyJS</generator><lastBuildDate>Sat, 20 Mar 2021 20:24:33 GMT</lastBuildDate><item><title><![CDATA[[記錄] 從零打造一個屬於你自己的 Hugo Blog !]]></title><description><![CDATA[我也不知道為什麼自己要在 Gatsby 建構的 blog 中放 hugo 的教學 ...]]></description><link>https://blog.claygao.tw//posts/:D</link><guid isPermaLink="false">https://blog.claygao.tw//posts/:D</guid><pubDate>Wed, 19 Feb 2020 22:40:32 GMT</pubDate><content:encoded>&lt;h2 id=&quot;前言&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%E5%89%8D%E8%A8%80&quot; aria-label=&quot;前言 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;前言&lt;/h2&gt;
+&lt;p&gt;我自己原本是有寫部落格的習慣，可能是工作上的體悟，或者是技術上的筆記，但大多都存在 Medium 與 Coderbridge 上，這兩個平台都相當好用，也是我目前的主力。&lt;/p&gt;
+&lt;p&gt;但其實最早養成筆記習慣的，還是在 vscode 上面自己寫 .md，然後 push 放在 GitHub repo 上面，這樣做的好處算是相當簡單，做法單純，而缺點則是 SEO 不佳，自己的筆記和文章不好被搜尋到，這時候還能怎麼做呢？&lt;/p&gt;
+&lt;p&gt;感謝同學千，安利了 Hugo (好啦應該也不算安利，只是碰巧知道他也有在玩)，所以就埋頭來研究要怎麼用 Hugo 架設一個部落格。&lt;/p&gt;
+&lt;p&gt;相比 Medium 與 Coderbridge 這些充滿種多功能的平台來說，的確少了一些功能，但畢竟是自己從零打造的，趣味性就相當高了，這也是今天我想要介紹架設過程的原因之一。&lt;/p&gt;
+&lt;p&gt;其實我知道相關的工具還有 Hexo 與 jekyll，但在研究 Hugo 之前其實也對他們完全不熟，不知道他們是如何運作的，所以如果你像我一樣完全不懂，那也沒有關係，可以照這一篇來一步一步架設自己的部落格。&lt;/p&gt;
+&lt;p&gt;在架設 Hugo Blog 之前，有一些工具是我們需要具備的：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Git 基本指令操作 (如 &lt;code class=&quot;language-text&quot;&gt;pull&lt;/code&gt;，&lt;code class=&quot;language-text&quot;&gt;push&lt;/code&gt; 與 &lt;code class=&quot;language-text&quot;&gt;commit&lt;/code&gt; 等)&lt;/li&gt;
+&lt;li&gt;GitHub 基本知識&lt;/li&gt;
+&lt;li&gt;Command Line 的使用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;最後，本篇文章將以 macOS 為預設作業系統來進行介紹。&lt;/p&gt;
+&lt;h2 id=&quot;一、安裝-hugo&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%E4%B8%80%E3%80%81%E5%AE%89%E8%A3%9D-hugo&quot; aria-label=&quot;一、安裝 hugo permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;一、安裝 Hugo&lt;/h2&gt;
+&lt;p&gt;Hugo 本著由 Go 語言開發而成的靜態網站產生器，讓使用者可以快速建立自己的靜態網站，而其實部落格只是&lt;strong&gt;其中一種應用形式&lt;/strong&gt;而已。所以如果要利用 Hugo 產生履歷 CV，甚至是專案的 Release Note 當然也都沒有問題。&lt;/p&gt;
+&lt;p&gt;在 Mac 上安裝 Hugo 的方式相當簡單，只要先安裝 &lt;a href=&quot;https://brew.sh/index_zh-tw&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;Homebrew&lt;/a&gt; ，並在 Terminal 執行以下指令，如果你的 mac 已經安裝過 Homebrew，那麼直接執行以下指令來安裝 Hugo 即可：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;cli&quot;&gt;&lt;pre class=&quot;language-cli&quot;&gt;&lt;code class=&quot;language-cli&quot;&gt;brew install hugo&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;又或者如果你要親自編輯 hugo 框架，可以先安裝 Go 語言環境，再將 Hugo 以環境套件的形式安裝到套件包，這邊就先不多加描述了。&lt;/p&gt;
+&lt;h2 id=&quot;二、直接產生本地靜態網站&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%E4%BA%8C%E3%80%81%E7%9B%B4%E6%8E%A5%E7%94%A2%E7%94%9F%E6%9C%AC%E5%9C%B0%E9%9D%9C%E6%85%8B%E7%B6%B2%E7%AB%99&quot; aria-label=&quot;二、直接產生本地靜態網站 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;二、直接產生本地靜態網站&lt;/h2&gt;
+&lt;p&gt;這一個部分也可以看成直接架設本地部落格，結果會生成資料夾。&lt;/p&gt;
+&lt;p&gt;假設我們這個專案叫做 &lt;code class=&quot;language-text&quot;&gt;hugo-blog&lt;/code&gt;，那麼可以在你想要的路徑執行：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;cli&quot;&gt;&lt;pre class=&quot;language-cli&quot;&gt;&lt;code class=&quot;language-cli&quot;&gt;hugo new site hugo-blog&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;這時候你應該就會看到 &lt;code class=&quot;language-text&quot;&gt;hugo-blog&lt;/code&gt; 被建立了，同時你也可以在 Terminal 上看到以下敘述：&lt;/p&gt;
+&lt;p&gt;{{&amp;#x3C;figure
+src=“/images/2021/build-your-hugo-blog/01.png”
+title=“貼心指引下一步” &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;}}&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;基本上就是 Hugo 很貼心的在指引我們下一步應該怎麼做，並且依據步驟 1 的描述，我們可以來開始挑選喜歡的 theme 囉，也就是部落格佈景啦，不過這對選擇障礙的人來說，其實是最難的一個步驟呢 🥺&lt;/p&gt;
+&lt;p&gt;不過在挑選喜歡的主題之前，還是可以先來釐清一下專案架構：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;cli&quot;&gt;&lt;pre class=&quot;language-cli&quot;&gt;&lt;code class=&quot;language-cli&quot;&gt;.
+├── archetypes
+│   └── default.md
+├── config.toml
+├── content
+├── data
+├── layouts
+├── static
+└── themes&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;大概可以來談幾個重要的部分：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;config.toml&lt;/p&gt;
+&lt;p&gt;是一個檔案，看到 &lt;code class=&quot;language-text&quot;&gt;config&lt;/code&gt; 這個關鍵字就知道，相關的參數都是在這裡設置，不論是之後的 Domain 指向，網站 title，甚至是一些功能等等，都需要在這裡做配置，不過通常我們不用從零開始做，這邊下一個章節會談到。&lt;/p&gt;
+&lt;p&gt;順帶一提，其實檔案格式也可以是 &lt;code class=&quot;language-text&quot;&gt;.yaml&lt;/code&gt; 或是我們熟悉的 &lt;code class=&quot;language-text&quot;&gt;.json&lt;/code&gt;，功能上完全相同，但大多數都會是 &lt;code class=&quot;language-text&quot;&gt;toml&lt;/code&gt; 就是了。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;archetypes&lt;/p&gt;
+&lt;p&gt;可以看到這個資料夾包裹著 &lt;code class=&quot;language-text&quot;&gt;default.md&lt;/code&gt;，我們可以在 &lt;code class=&quot;language-text&quot;&gt;default.md&lt;/code&gt; 設置一些格式，讓我們在每次建立新文章時，就自動寫入這些內容，打開 &lt;code class=&quot;language-text&quot;&gt;default.md&lt;/code&gt; 可以看到以下內容，這就代表我們每次建立新文章時，都會將上述的設置帶到我們的文章之中。&lt;/p&gt;
+&lt;p&gt;一句話簡單來說，就是模板文件。：&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;md&quot;&gt;&lt;pre class=&quot;language-md&quot;&gt;&lt;code class=&quot;language-md&quot;&gt;&lt;span class=&quot;token front-matter-block&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;---&lt;/span&gt;
+&lt;span class=&quot;token font-matter yaml language-yaml&quot;&gt;title: &quot;{{ replace .Name &quot;\-&quot; &quot; &quot; | title }}&quot;
+date: {{ .Date }}
+draft: true&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;---&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;layouts&lt;/p&gt;
+&lt;p&gt;查詢資料為 .html 的模板，不過我這邊沒有用到，先不介紹。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;data&lt;/p&gt;
+&lt;p&gt;如果模板文件需要取用資料，可以統一放在這裡，比如語系，不過我目前也沒有用到。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;content&lt;/p&gt;
+&lt;p&gt;主要的文章與 &lt;code class=&quot;language-text&quot;&gt;.md&lt;/code&gt; 檔案的存放位置，內中的子資料夾會作為網站的路由，比如說在裡面新增 &lt;code class=&quot;language-text&quot;&gt;about&lt;/code&gt; 資料夾並建立 &lt;code class=&quot;language-text&quot;&gt;index.html&lt;/code&gt;，屆時就可以切換至 &lt;code class=&quot;language-text&quot;&gt;/about&lt;/code&gt; 這個 router 以下。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;static&lt;/p&gt;
+&lt;p&gt;滿重要的一個資料夾，可以在內中存放 &lt;code class=&quot;language-text&quot;&gt;favicon.icon&lt;/code&gt; 等圖示，甚至是我們待會兒部署會用到的 &lt;code class=&quot;language-text&quot;&gt;CNAME&lt;/code&gt; 檔案&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;themes &lt;/p&gt;
+&lt;p&gt;部落格的主題放置處，形式是以一種主題以一個資料夾為單位存放在內&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;上述我們會比較常處理的應該是 content、static 與 themes 三個資料夾，這邊先看過就好，之後的操作我們會再提到他們，現在，我們就先來建立第一篇文章，並挑選喜歡的主題吧！  &lt;/p&gt;
+&lt;h2 id=&quot;三、建立第一篇文章並挑選主題&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%E4%B8%89%E3%80%81%E5%BB%BA%E7%AB%8B%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E4%B8%A6%E6%8C%91%E9%81%B8%E4%B8%BB%E9%A1%8C&quot; aria-label=&quot;三、建立第一篇文章並挑選主題 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;三、建立第一篇文章並挑選主題&lt;/h2&gt;
+&lt;h3 id=&quot;建立文章&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%E5%BB%BA%E7%AB%8B%E6%96%87%E7%AB%A0&quot; aria-label=&quot;建立文章 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;建立文章&lt;/h3&gt;
+&lt;p&gt;現在，我們可以開始來建立第一篇文章了。&lt;/p&gt;
+&lt;p&gt;儘管我們可以在 content 資料夾中新增 &lt;code class=&quot;language-text&quot;&gt;.md&lt;/code&gt; 檔案，但這邊還是建議使用以下方式來建立：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;cli&quot;&gt;&lt;pre class=&quot;language-cli&quot;&gt;&lt;code class=&quot;language-cli&quot;&gt;$ hugo new posts/first.md&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;順帶一提，你可能會看到有些使用方法會以 &lt;code class=&quot;language-text&quot;&gt;post&lt;/code&gt; 來命名而不是 &lt;code class=&quot;language-text&quot;&gt;posts&lt;/code&gt;，我是覺得都可以，當然這邊可能會根據你所使用的 theme 不同而調整，但也是可以自己修改的。&lt;/p&gt;
+&lt;p&gt;輸入上述指令之後，這個 &lt;code class=&quot;language-text&quot;&gt;posts&lt;/code&gt; 就會在我們剛剛的 content 資料夾底下。&lt;/p&gt;
+&lt;p&gt;同理，如果今天你輸入 &lt;code class=&quot;language-text&quot;&gt;$ hugo new haha&lt;/code&gt; 的話，那麼 content 底下也會有一個叫做 haha 的資料夾。&lt;/p&gt;
+&lt;p&gt;現在，切換到 &lt;code class=&quot;language-text&quot;&gt;content/posts&lt;/code&gt; 底下，開啟 &lt;code class=&quot;language-text&quot;&gt;first.md&lt;/code&gt;，可以看到裡面已經有一些內容，這些內容就是我們上面提到的 &lt;code class=&quot;language-text&quot;&gt;archetypes/default.md&lt;/code&gt; 中的模板。&lt;/p&gt;
+&lt;p&gt;可以留意 &lt;code class=&quot;language-text&quot;&gt;draft: true&lt;/code&gt; 這一個參數，代表目前這個文章是草稿狀態，之所以需要做這個參數設置的原因，是因為這篇文章你還沒寫完，還不希望別人看到，刪除這個參數或者設置為 &lt;code class=&quot;language-text&quot;&gt;false&lt;/code&gt;，就會被認為是 Published。&lt;/p&gt;
+&lt;p&gt;一但被認為是 Published，那屆時就會顯示在你的文章列表上，否則則不會出現。&lt;/p&gt;
+&lt;h3 id=&quot;挑選主題&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%E6%8C%91%E9%81%B8%E4%B8%BB%E9%A1%8C&quot; aria-label=&quot;挑選主題 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;挑選主題&lt;/h3&gt;
+&lt;p&gt;現在到了大家最期待的環節了，不過在這邊我也花了最多時間，大概整整花了八個小時才找到自己喜歡的 theme 🥺&lt;/p&gt;
+&lt;p&gt;不過因為各個 theme 本身其實都是 GitHub repo，我們需要下 Git 相關指令將其下載到我們的 &lt;code class=&quot;language-text&quot;&gt;themes&lt;/code&gt; 資料夾，所以在這之前我們必須在根目錄安裝 &lt;code class=&quot;language-text&quot;&gt;git&lt;/code&gt; :&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;cli&quot;&gt;&lt;pre class=&quot;language-cli&quot;&gt;&lt;code class=&quot;language-cli&quot;&gt;// 在 hugo-blog 根目錄底下
+$ git init&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;安裝好後，別忘記要進行首次的 &lt;code class=&quot;language-text&quot;&gt;git add .&lt;/code&gt; 與 &lt;code class=&quot;language-text&quot;&gt;git commit&lt;/code&gt; 哦！&lt;/p&gt;
+&lt;p&gt;接著，我們可以到 Hugo 的官方網站底下的 &lt;a href=&quot;https://themes.gohugo.io/&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;Themes&lt;/a&gt;，這裡存放著各式各樣的 Hugo 主題 (超感謝各種熱心的開發者！)，看上一個喜歡的主題之後，點選進去，可以看到有 Download 與 Demo 兩個按鈕，也可能會有 HomePage，代表作者為這個主題所做的介紹頁面。&lt;/p&gt;
+&lt;p&gt;而 Download 這個按鈕通常會連到這個主題的 GitHub repo 頁面，通常關於這個主題的設置方式與相關資訊通常會寫在 README.md 當中。&lt;/p&gt;
+&lt;p&gt;{{&amp;#x3C;figure
+src=“/images/2021/build-your-hugo-blog/02.png”
+title=“以 hello-friend-ng 這個 theme 為例” &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;}}&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;可以先點選 Demo，看一下這個主題大概長什麼樣子，並且玩看看有什麼功能，這裡真的可以說是精神時光屋啊。&lt;/p&gt;
+&lt;p&gt;順帶一提，之所以會說「功能」，是因為有某些主題僅僅只是 CSS style，而有些則是新增了一些有趣的互動等等，隨著功能的多寡，主題包的大小也各有不同，這邊就看個人喜好。&lt;/p&gt;
+&lt;p&gt;以 &lt;a href=&quot;https://github.com/rhazdon/hugo-theme-hello-friend-ng&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;hello-friend-ng&lt;/a&gt; 這個主題為例，先點擊 Demo 進入 repo，複製 &lt;code class=&quot;language-text&quot;&gt;.git&lt;/code&gt; 網址，這邊介紹兩種安裝方式，不過建議使用第二種：&lt;/p&gt;
+&lt;p&gt;第一種，是切換至 themes 這個資料夾底下，然後 &lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;cli&quot;&gt;&lt;pre class=&quot;language-cli&quot;&gt;&lt;code class=&quot;language-cli&quot;&gt;$ git clone https://github.com/rhazdon/hugo-theme-hello-friend-ng.git&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;第二種，是在根目錄輸入以下指令：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;cli&quot;&gt;&lt;pre class=&quot;language-cli&quot;&gt;&lt;code class=&quot;language-cli&quot;&gt;$ git submodule add https://github.com/rhazdon/hugo-theme-hello-friend-ng.git themes/hello-friend-ng&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;不論使用哪一種方式，你的 themes 底下都會多出以這個主題為名的資料夾：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;cli&quot;&gt;&lt;pre class=&quot;language-cli&quot;&gt;&lt;code class=&quot;language-cli&quot;&gt;.
+├── archetypes
+│   └── default.md
+├── config.toml
+├── content
+├── data
+├── layouts
+├── static
+└── themes
+	└── hello-friend-ng &amp;lt;-- 就是它 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;這邊建議使用第二種方式，使用第二種方式之後，會自動在根目錄建立一個 &lt;code class=&quot;language-text&quot;&gt;.gitmodules&lt;/code&gt; 的檔案，&lt;/p&gt;
+&lt;p&gt;內容大概是像這樣的：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;.gitmodules&quot;&gt;&lt;pre class=&quot;language-.gitmodules&quot;&gt;&lt;code class=&quot;language-.gitmodules&quot;&gt;[submodule &amp;quot;themes/hello-friend-ng&amp;quot;]
+	path = themes/hello-friend-ng
+	url = https://github.com/rhazdon/hugo-theme-hello-friend-ng.git&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;至於為什麼要這樣做呢？&lt;/p&gt;
+&lt;p&gt;大家可以理解為，因為我們的根目錄已經有一個 &lt;code class=&quot;language-text&quot;&gt;.git&lt;/code&gt; 檔案在控制這個專案的版本了，當裡面的子資料夾 (也就是我們下載的主題) 同時也有一個 &lt;code class=&quot;language-text&quot;&gt;.git&lt;/code&gt; 時，就會形成版本控制下還有一個版本控制。&lt;/p&gt;
+&lt;p&gt;簡單來說，就是一個 repo 裡面還有一個 repo。&lt;/p&gt;
+&lt;p&gt;這時候就可以看作子 repo 是主 repo 的 Sub Module，Sub Module 本身若有更改，則需要在 Sub Module 本身進行 &lt;code class=&quot;language-text&quot;&gt;add&lt;/code&gt; 與 &lt;code class=&quot;language-text&quot;&gt;commit&lt;/code&gt; 等動作，再回到主要的 repo 進行 &lt;code class=&quot;language-text&quot;&gt;add&lt;/code&gt; 與 &lt;code class=&quot;language-text&quot;&gt;commit&lt;/code&gt; 才行。&lt;/p&gt;
+&lt;p&gt;如此，由於主題就是 Sub Module，哪一天若這個主題有更新功能時，我們就可以依照上述的邏輯來同時更新我們的部落格。&lt;/p&gt;
+&lt;p&gt;其實這邊自己在實務上也沒有遇過，如果上述有敘述不清或者錯誤，再麻煩 Twitter 敲我，不勝感激 🙏 🙏 🙏&lt;/p&gt;
+&lt;p&gt;順帶一提，如果你是使用第一種方式，將主題 &lt;code class=&quot;language-text&quot;&gt;git clone&lt;/code&gt; 在 &lt;code class=&quot;language-text&quot;&gt;theme&lt;/code&gt; 底下，那麼當回到根目錄執行 &lt;code class=&quot;language-text&quot;&gt;git add&lt;/code&gt; 來儲存這次變更時，也會有訊息跳出來，要你將該主題加入為 &lt;code class=&quot;language-text&quot;&gt;gitsubmodule&lt;/code&gt; ：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;cli&quot;&gt;&lt;pre class=&quot;language-cli&quot;&gt;&lt;code class=&quot;language-cli&quot;&gt;warning: adding embedded git repository: themes/hugo-theme-hello-friend-ng
+
+hint: You&amp;#39;ve added another git repository inside your current repository.
+hint: Clones of the outer repository will not contain the contents of
+hint: the embedded repository and will not know how to obtain it.
+hint: If you meant to add a submodule, use:
+hint:
+hint: 	git submodule add &amp;lt;url&amp;gt; themes/hugo-theme-hello-friend-ng
+hint:
+hint: If you added this path by mistake, you can remove it from the
+hint: index with:
+hint:
+hint: 	git rm --cached themes/hugo-theme-hello-friend-ng
+hint:
+hint: See &amp;quot;git help submodule&amp;quot; for more information.&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;這時候按照上述步驟來處理，應該就沒有問題了，或者按照敘述執行 &lt;code class=&quot;language-text&quot;&gt;git rm --cached themes/hugo-theme-hello-friend-ng -r&lt;/code&gt; 後，再使用第二種方式下載主題。&lt;/p&gt;
+&lt;h3 id=&quot;主題設置&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%E4%B8%BB%E9%A1%8C%E8%A8%AD%E7%BD%AE&quot; aria-label=&quot;主題設置 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;主題設置&lt;/h3&gt;
+&lt;p&gt;前面我們有提過 &lt;code class=&quot;language-text&quot;&gt;config.toml&lt;/code&gt; 這個檔案，關係到我們的部落格設置，但同時我們也提過，如果搭配主題使用的話，我們其實不太需要自己去設置細項，因為我們下載的眾多主題其實本身都有他們獨有的一些配置，我們只要複製一份，並修改部分可以客製的參數即可。&lt;/p&gt;
+&lt;p&gt;不管是哪一種主題，在其 repo 底下應該都會有一個 &lt;code class=&quot;language-text&quot;&gt;exampleSite&lt;/code&gt;，以 hello-friend-ng 這個主題為例，切換至 &lt;code class=&quot;language-text&quot;&gt;/themes/hello-friend-ng&lt;/code&gt; 可以看到 &lt;code class=&quot;language-text&quot;&gt;exampleSite&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;切換至 &lt;code class=&quot;language-text&quot;&gt;exampleSite&lt;/code&gt; 底下之後，可以發現底下也有一個 &lt;code class=&quot;language-text&quot;&gt;config.toml&lt;/code&gt; 檔案，同時也可以看到一個 &lt;code class=&quot;language-text&quot;&gt;content&lt;/code&gt; 資料夾，以我這兩天的觀察，這個 &lt;code class=&quot;language-text&quot;&gt;content&lt;/code&gt; 資料夾所包含的 &lt;code class=&quot;language-text&quot;&gt;.md&lt;/code&gt; 檔案與 Section，通常都與主題的 Demo 相符合。&lt;/p&gt;
+&lt;p&gt;複製 &lt;code class=&quot;language-text&quot;&gt;config.toml&lt;/code&gt; 到根目錄，取代原本的 &lt;code class=&quot;language-text&quot;&gt;config.toml&lt;/code&gt; (如果是 &lt;code class=&quot;language-text&quot;&gt;yaml&lt;/code&gt; 或 &lt;code class=&quot;language-text&quot;&gt;json&lt;/code&gt; 也是如此)，然後依照主題的文件調適你想要的參數，通常 &lt;code class=&quot;language-text&quot;&gt;config.toml&lt;/code&gt; 中也會有註解，而文件部分則是看主題作者個人，以 &lt;a href=&quot;https://github.com/lxndrblz/anatole/&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;Anatole&lt;/a&gt; 這個主題來說，就將文件很清楚的寫在 README.md，而也有某些主題自己架設了靜態網站當作說明書。&lt;/p&gt;
+&lt;p&gt;目前看來，其實每種主題配置同一項參數的功能不一樣，比如說瀏覽器標籤的 Icon，Anatole 主題的做法是可以在 &lt;code class=&quot;language-text&quot;&gt;config.toml&lt;/code&gt; 設置 &lt;code class=&quot;language-text&quot;&gt;favicon.ico&lt;/code&gt; 路徑，而 hello-friend-ng 則是會請使用者將是配各種瀏覽器裝置的 Icon 放在 static 資料夾中。&lt;/p&gt;
+&lt;p&gt;當然也是有一些不管哪種主題都會調整的參數，通常就是 &lt;code class=&quot;language-text&quot;&gt;config.toml&lt;/code&gt; 前面那幾項：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;toml&quot;&gt;&lt;pre class=&quot;language-toml&quot;&gt;&lt;code class=&quot;language-toml&quot;&gt;&lt;span class=&quot;token key property&quot;&gt;baseURL&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;https://blog.claygao.tw&quot;&lt;/span&gt;
+&lt;span class=&quot;token key property&quot;&gt;title&lt;/span&gt;   &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Clay Gao&quot;&lt;/span&gt;
+&lt;span class=&quot;token key property&quot;&gt;languageCode&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;en-us&quot;&lt;/span&gt;
+&lt;span class=&quot;token key property&quot;&gt;theme&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;hello-friend-ng&quot;&lt;/span&gt;
+
+&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;其中 &lt;code class=&quot;language-text&quot;&gt;theme&lt;/code&gt; 這個參數滿重要的，如果沒有設置的話，當 building 或是跑在本機 server 時就會需要另外帶參數 &lt;code class=&quot;language-text&quot;&gt;-t&lt;/code&gt; 或 &lt;code class=&quot;language-text&quot;&gt;--theme&lt;/code&gt; 來指定主題名稱才能跑起。&lt;/p&gt;
+&lt;p&gt;由於每個主題配置的參數都不太一樣，這邊就留給讀者自己去找到喜歡的主題來研究，不過當然了，功能越簡單的主題，配置通常也越少就是了。&lt;/p&gt;
+&lt;h2 id=&quot;跑起來！產生部落格&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%E8%B7%91%E8%B5%B7%E4%BE%86%EF%BC%81%E7%94%A2%E7%94%9F%E9%83%A8%E8%90%BD%E6%A0%BC&quot; aria-label=&quot;跑起來！產生部落格 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;跑起來！產生部落格&lt;/h2&gt;
+&lt;p&gt;終於到了關鍵的時刻了，現在就讓我們把部落格跑起來吧！&lt;/p&gt;
+&lt;p&gt;如果是第一次接觸相關應用的新手，可以先了解兩個概念，第一是在測試環境上運行，第二則是正式打 build 出我們的網站。&lt;/p&gt;
+&lt;p&gt;為了避免 build 出來的成品不如我們的預期，其實我們可以先在測試環境上面跑，在根目錄輸入：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;cli&quot;&gt;&lt;pre class=&quot;language-cli&quot;&gt;&lt;code class=&quot;language-cli&quot;&gt;$ hugo server -D&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;這時候會出現一串描述，代表你可以在相對應的 port 上跑起你的網站，比如照以下描述，我的測試 port 就是 &lt;code class=&quot;language-text&quot;&gt;localhost:59397&lt;/code&gt;，所以只要打開瀏覽器，在網址列輸入就可以看到我們的部落格了！&lt;/p&gt;
+&lt;p&gt;{{&amp;#x3C;figure
+src=“/images/2021/build-your-hugo-blog/03.png”
+title=“反白的就是我們的測試 port，趕緊複製貼上網址列吧！” &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;}}&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;另外，也可以看到 Hugo 列出了生產了哪些類型的檔案：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;cli&quot;&gt;&lt;pre class=&quot;language-cli&quot;&gt;&lt;code class=&quot;language-cli&quot;&gt;                   | EN
+-------------------+-----
+  Pages            | 24
+  Paginator pages  |  0
+  Non-page files   |  0
+  Static files     | 27
+  Processed images |  0
+  Aliases          | 12
+  Sitemaps         |  1
+  Cleaned          |  0&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;p&gt;在看部落格之前先提醒幾點，因為我們已經有在 config.toml 加上參數 &lt;code class=&quot;language-text&quot;&gt;theme = [我們要的主題]&lt;/code&gt;，如果你原本沒有帶上這個參數，那麼在執行 &lt;code class=&quot;language-text&quot;&gt;hugo server&lt;/code&gt; 或是 &lt;code class=&quot;language-text&quot;&gt;hugo&lt;/code&gt; 時可能會有問題，這時候就會需要加上參數 &lt;code class=&quot;language-text&quot;&gt;--theme=主題名稱&lt;/code&gt; 或是 &lt;code class=&quot;language-text&quot;&gt;-t 主題名稱&lt;/code&gt; (注意 -t 與主題名稱中間有空格)，才能正常跑起。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;在網址列貼上剛剛的 &lt;code class=&quot;language-text&quot;&gt;localhost:port 號&lt;/code&gt; 之後，就可以看到部落格啦！大多數的人應該都是 &lt;code class=&quot;language-text&quot;&gt;localhost:1313&lt;/code&gt; 這個 url，不過也有可能出現別的 port，所以如果跑起來是 404，記得檢查一下 Terminal 給的資訊哦！&lt;/p&gt;
+&lt;p&gt;{{&amp;#x3C;figure
+src=“/images/2021/build-your-hugo-blog/04.png”
+title=“跑起來囉，以這個範例來說，port 是 59397” &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;}}&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;然後順便提一下 &lt;code class=&quot;language-text&quot;&gt;-D&lt;/code&gt; 這個參數，前面有提到，在文章標頭會有 &lt;code class=&quot;language-text&quot;&gt;draft: true&lt;/code&gt;，當帶入 &lt;code class=&quot;language-text&quot;&gt;-D&lt;/code&gt; 後，測試環境會將性質為草稿的文章也列出在文章列表，做編輯對應之用。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;另外，當我們的部落格跑起來後，由於支援 Hot rendering，只要編輯文章並儲存，就可以看到網站內容會自動刷新，不用再按 F5 重新整理囉！&lt;/p&gt;
+&lt;p&gt;現在，你可以開始編輯自己的文章，或者按照之前說的使用 &lt;code class=&quot;language-text&quot;&gt;hugo new&lt;/code&gt; 產生一篇新的文章，也可以在自己在 context 資料夾加入你想要的子資料夾，並搭配參數豐富你的網站選項，這邊就讓讀者自己玩看看囉！因為根據不同的主題，也會有不同的效果，故不一言以蔽之。&lt;/p&gt;
+&lt;p&gt;等到玩得差不多之後，就可以正式產生，也就是 build 出我們的成品了，只要簡單輸入：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;cli&quot;&gt;&lt;pre class=&quot;language-cli&quot;&gt;&lt;code class=&quot;language-cli&quot;&gt;hugo&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;沒錯，就是這麼簡單，這時候應該 Terminal 中應該也會告訴你生產了哪些靜態檔案，這些靜態檔案會放在一個在根目錄新產生的資料夾 &lt;code class=&quot;language-text&quot;&gt;public&lt;/code&gt; 之中，&lt;code class=&quot;language-text&quot;&gt;public&lt;/code&gt; 裡面會有一個 &lt;code class=&quot;language-text&quot;&gt;index.html&lt;/code&gt;，他就是我們的成品啦，整個網站的入口點！&lt;/p&gt;
+&lt;p&gt;另外你應該也有發現到，輸入 &lt;code class=&quot;language-text&quot;&gt;hugo&lt;/code&gt; 到產生 &lt;code class=&quot;language-text&quot;&gt;public&lt;/code&gt;，時間也是超爆快的，這也是 Hugo 強大的地方。&lt;/p&gt;
+&lt;p&gt;如果你有點好奇心，也可以探索 &lt;code class=&quot;language-text&quot;&gt;public&lt;/code&gt; 這個資料夾內的內容，應該也可以注意到我們在編輯的 &lt;code class=&quot;language-text&quot;&gt;.md&lt;/code&gt; 文章也已經被轉化成資料夾與各自的 &lt;code class=&quot;language-text&quot;&gt;index.html&lt;/code&gt; 了，就是各種靜態網頁的概念。&lt;/p&gt;
+&lt;h2 id=&quot;build-了，然後呢？談-github-page-部署第一種部署方式&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#build-%E4%BA%86%EF%BC%8C%E7%84%B6%E5%BE%8C%E5%91%A2%EF%BC%9F%E8%AB%87-github-page-%E9%83%A8%E7%BD%B2%E7%AC%AC%E4%B8%80%E7%A8%AE%E9%83%A8%E7%BD%B2%E6%96%B9%E5%BC%8F&quot; aria-label=&quot;build 了，然後呢？談 github page 部署第一種部署方式 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Build 了，然後呢？談 GitHub Page 部署第一種部署方式&lt;/h2&gt;
+&lt;p&gt;當然是把我們的網站部署在線上，讓親朋好友一起瀏覽囉！&lt;/p&gt;
+&lt;p&gt;如果你已經有架設過 AWS / GCP 等雲端伺服器的經驗，那應該不用我多做說明了，因為是靜態網頁，所以只要簡單把 build 出來的內容放上去就好。&lt;/p&gt;
+&lt;p&gt;不過這邊提供一個大多數人會選擇的方案，那就是使用 GitHub Page，GitHub Page 允許我們將專案中的 index.html 呈現在與我們用戶名稱相同的 github.io domain name 上，而且完全免費，只是要注專案本身必須是公開的 (Public)，而不能是私有的 (Private)&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;由於這邊對 GitHub Page 研究沒有太多，所以關於私有無法運行的敘述，如果有錯誤再煩請推特聯絡我，我還沒裝留言系統 (也可能不會裝)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;首先，我們創造一個新的專案 repo，名為 &lt;code class=&quot;language-text&quot;&gt;[用戶名].github.io&lt;/code&gt;，用戶名就是你的 GitHub 用戶名，比如說我的用戶名是 &lt;code class=&quot;language-text&quot;&gt;claygao&lt;/code&gt;，創建的專案名稱就是 &lt;code class=&quot;language-text&quot;&gt;claygao.github.io&lt;/code&gt;，記得要設立成公開的哦！&lt;/p&gt;
+&lt;p&gt;當然如果想另外自己設計路由，而不想叫做 &lt;code class=&quot;language-text&quot;&gt;[用戶名].github.io&lt;/code&gt; 應該也是 OK，不過這邊就先不舉例了。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;注意，以下是第一種部署方式，本人建議使用第二種，所以以下建議先看過了解原理就好，實作上採取之後第二種方式&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;開好 repo 之後，repo 還是空的，這時候回到我們的本地部落格資料夾根目錄，進入剛剛 build 成的 public 資料夾，我們現在要將該資料夾的所有資料都上到剛剛創立的 &lt;code class=&quot;language-text&quot;&gt;github.io&lt;/code&gt; repo 上。&lt;/p&gt;
+&lt;p&gt;切換到 &lt;code class=&quot;language-text&quot;&gt;public&lt;/code&gt;，輸入 &lt;code class=&quot;language-text&quot;&gt;git init&lt;/code&gt;，&lt;code class=&quot;language-text&quot;&gt;git add&lt;/code&gt; 並且做好初次 &lt;code class=&quot;language-text&quot;&gt;git commit&lt;/code&gt; 之後，將剛剛的遠端 repo 與本地 public 牽上線。&lt;/p&gt;
+&lt;p&gt;牽上線很簡單，以我的例子來說，只要輸入：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;cli&quot;&gt;&lt;pre class=&quot;language-cli&quot;&gt;&lt;code class=&quot;language-cli&quot;&gt;$ git remote add origin https://github.com/ClayGao/claygao.github.io.git&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;p&gt;repo 的主頁可以快速複製網址&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;牽上線後，再把本地資料 push 到遠端 repo：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;$ git push origin master&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;push 成功後，遠端 repo 已經有資料了，這時候讓我們點選上排的 &lt;code class=&quot;language-text&quot;&gt;Settings&lt;/code&gt; 標籤頁：&lt;/p&gt;
+&lt;p&gt;{{&amp;#x3C;figure
+src=“/images/2021/build-your-hugo-blog/05.png”
+title=“點選 Settings” &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;}}&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;點選之後，拉到最下面，觀看 GitHub Pages 的部分，確定 Branch 的地方選擇 master，並按下 Save&lt;/p&gt;
+&lt;p&gt;{{&amp;#x3C;figure
+src=“/images/2021/build-your-hugo-blog/06.png”
+title=“確定 Branch 的地方選擇 master” &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;}}&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;然後，你就可以在網址列輸入 &lt;code class=&quot;language-text&quot;&gt;https://[用戶名].github.io&lt;/code&gt;，看到你的網頁囉！以我麼案例來說的話，我的部落格網址就會是 &lt;code class=&quot;language-text&quot;&gt;https://claygao.github.io&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;另外如果沒有成功看到部落格，可以再稍等一下，應該十五分鐘之內會成功，如果沒有成功，可能要看一下是不是遺漏掉什麼步驟，或者是 repo 根目錄中沒有 &lt;code class=&quot;language-text&quot;&gt;index.html&lt;/code&gt; 這個檔案，這可能是 &lt;code class=&quot;language-text&quot;&gt;config.toml&lt;/code&gt; 遺漏了一些參數沒在 &lt;code class=&quot;language-text&quot;&gt;hugo&lt;/code&gt; 時補上就會出現這種狀況。&lt;/p&gt;
+&lt;p&gt;這樣感覺好像就成功了，但其實我們還有兩個部分要優化。&lt;/p&gt;
+&lt;p&gt;第一個部分就是 &lt;code class=&quot;language-text&quot;&gt;https://[用戶名].github.io&lt;/code&gt; 這個網址實在不太美觀，也不夠個人化，我們能否客製化成自己的網域了？當然沒問題！&lt;/p&gt;
+&lt;p&gt;第二個部分就是，這樣感覺每次修改完文章，我都必須要重新執行 &lt;code class=&quot;language-text&quot;&gt;hugo&lt;/code&gt; 這個指令來產生更新過後的 &lt;code class=&quot;language-text&quot;&gt;public&lt;/code&gt;，然後每次又都要在 &lt;code class=&quot;language-text&quot;&gt;public&lt;/code&gt; 裡面 commit 變更，然後再 push 到遠端 repo 上，感覺超麻煩。&lt;/p&gt;
+&lt;p&gt;所以接下來，我們就要來完成上述兩件事情囉！就先從建立自己的網域開始吧！&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Humane Typography in the Digital Age]]></title><description><![CDATA[An Essay on Typography by Eric Gill takes the reader back to the year 1930. The year when a conflict between two worlds came to its term. The machines of the industrial world finally took over the handicrafts.]]></description><link>https://blog.claygao.tw//posts/humane-typography-in-the-digital-age</link><guid isPermaLink="false">https://blog.claygao.tw//posts/humane-typography-in-the-digital-age</guid><pubDate>Sat, 19 Aug 2017 22:40:32 GMT</pubDate><content:encoded>&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#the-first-transition&quot;&gt;The first transition&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#the-digital-age&quot;&gt;The digital age&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#loss-of-humanity-through-transitions&quot;&gt;Loss of humanity through transitions&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#chasing-perfection&quot;&gt;Chasing perfection&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;An Essay on Typography by Eric Gill takes the reader back to the year 1930. The year when a conflict between two worlds came to its term. The machines of the industrial world finally took over the handicrafts.&lt;/p&gt;
+&lt;p&gt;The typography of this industrial age was no longer handcrafted. Mass production and profit became more important. Quantity mattered more than the quality. The books and printed works in general lost a part of its humanity. The typefaces were not produced by craftsmen anymore. It was the machines printing and tying the books together now. The craftsmen had to let go of their craft and became a cog in the process. An extension of the industrial machine.&lt;/p&gt;
+&lt;p&gt;But the victory of the industrialism didn’t mean that the craftsmen were completely extinct. The two worlds continued to coexist independently. Each recognising the good in the other — the power of industrialism and the humanity of craftsmanship. This was the second transition that would strip typography of a part of its humanity. We have to go 500 years back in time to meet the first one.&lt;/p&gt;
+&lt;h2 id=&quot;the-first-transition&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#the-first-transition&quot; aria-label=&quot;the first transition permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;The first transition&lt;/h2&gt;
+&lt;p&gt;A similar conflict emerged after the invention of the first printing press in Europe. Johannes Gutenberg invented movable type and used it to produce different compositions. His workshop could print up to 240 impressions per hour. Until then, the books were being copied by hand. All the books were handwritten and decorated with hand drawn ornaments and figures. A process of copying a book was long but each book, even a copy, was a work of art.&lt;/p&gt;
+&lt;p&gt;The first printed books were, at first, perceived as inferior to the handwritten ones. They were smaller and cheaper to produce. Movable type provided the printers with flexibility that allowed them to print books in languages other than Latin. Gill describes the transition to industrialism as something that people needed and wanted. Something similar happened after the first printed books emerged. People wanted books in a language they understood and they wanted books they could take with them. They were hungry for knowledge and printed books satisfied this hunger.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 800px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/6d93cbc4956a854d4c4369f0e281e7f3/4b190/42-line-bible.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 68.75%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAOABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAIEAQP/xAAVAQEBAAAAAAAAAAAAAAAAAAABAP/aAAwDAQACEAMQAAABufUKs5i//8QAGhAAAgIDAAAAAAAAAAAAAAAAAAIBEhARMf/aAAgBAQABBQLhdiLY2otmj//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8BP//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQIBAT8BP//EABoQAAICAwAAAAAAAAAAAAAAAAABEUECEHH/2gAIAQEABj8CWqFJZKzhcP/EABoQAAICAwAAAAAAAAAAAAAAAAABESExQVH/2gAIAQEAAT8htIzvAkKJdIZ1iOrKhtOD58i2UYQ//9oADAMBAAIAAwAAABCPz//EABURAQEAAAAAAAAAAAAAAAAAAAEQ/9oACAEDAQE/EGf/xAAVEQEBAAAAAAAAAAAAAAAAAAABEP/aAAgBAgEBPxAn/8QAGxABAAIDAQEAAAAAAAAAAAAAAQARITFRQYH/2gAIAQEAAT8QURjCRbioVC2xo2WyVaV7jtwCCrbaU0oxx2BWbCVKxv5P/9k=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source
+              srcset=&quot;/static/6d93cbc4956a854d4c4369f0e281e7f3/8ac56/42-line-bible.webp 240w,
+/static/6d93cbc4956a854d4c4369f0e281e7f3/d3be9/42-line-bible.webp 480w,
+/static/6d93cbc4956a854d4c4369f0e281e7f3/d00b9/42-line-bible.webp 800w&quot;
+              sizes=&quot;(max-width: 800px) 100vw, 800px&quot;
+              type=&quot;image/webp&quot;
+            /&gt;
+          &lt;source
+            srcset=&quot;/static/6d93cbc4956a854d4c4369f0e281e7f3/09b79/42-line-bible.jpg 240w,
+/static/6d93cbc4956a854d4c4369f0e281e7f3/7cc5e/42-line-bible.jpg 480w,
+/static/6d93cbc4956a854d4c4369f0e281e7f3/4b190/42-line-bible.jpg 800w&quot;
+            sizes=&quot;(max-width: 800px) 100vw, 800px&quot;
+            type=&quot;image/jpeg&quot;
+          /&gt;
+          &lt;img
+            class=&quot;gatsby-resp-image-image&quot;
+            src=&quot;/static/6d93cbc4956a854d4c4369f0e281e7f3/4b190/42-line-bible.jpg&quot;
+            alt=&quot;42-line-bible.jpg&quot;
+            title=&quot;42-line-bible.jpg&quot;
+            loading=&quot;lazy&quot;
+            style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+          /&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;The 42–Line Bible, printed by Gutenberg.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;But, through this transition, the book lost a large part of its humanity. The machine took over most of the process but craftsmanship was still a part of it. The typefaces were cut manually by the first punch cutters. The paper was made by hand. The illustrations and ornaments were still being hand drawn. These were the remains of the craftsmanship that went almost extinct in the times of Eric Gill.&lt;/p&gt;
+&lt;h2 id=&quot;the-digital-age&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#the-digital-age&quot; aria-label=&quot;the digital age permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;The digital age&lt;/h2&gt;
+&lt;p&gt;The first transition took away a large part of humanity from written communication. Industrialisation, the second transition described by Eric Gill, took away most of what was left. But it’s the third transition that stripped it naked. Typefaces are faceless these days. They’re just fonts on our computers. Hardly anyone knows their stories. Hardly anyone cares. Flicking through thousands of typefaces and finding the “right one” is a matter of minutes.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;In the new computer age the proliferation of typefaces and type manipulations represents a new level of visual pollution threatening our culture. Out of thousands of typefaces, all we need are a few basic ones, and trash the rest.&lt;/p&gt;
+&lt;p&gt;— Massimo Vignelli&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Typography is not about typefaces. It’s not about what looks best, it’s about what feels right. What communicates the message best. Typography, in its essence, is about the message. “Typographical design should perform optically what the speaker creates through voice and gesture of his thoughts.”, as El Lissitzky, a famous Russian typographer, put it.&lt;/p&gt;
+&lt;h2 id=&quot;loss-of-humanity-through-transitions&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#loss-of-humanity-through-transitions&quot; aria-label=&quot;loss of humanity through transitions permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Loss of humanity through transitions&lt;/h2&gt;
+&lt;p&gt;Each transition took away a part of humanity from written language. Handwritten books being the most humane form and the digital typefaces being the least. Overuse of Helvetica is a good example. Messages are being told in a typeface just because it’s a safe option. It’s always there. Everyone knows it but yet, nobody knows it. Stop someone on the street and ask him what Helvetica is? Ask a designer the same question. Ask him where it came from, when, why and who designed it. Most of them will fail to answer these questions. Most of them used it in their precious projects but they still don’t spot it in the street.&lt;/p&gt;
+&lt;figure&gt;
+	&lt;blockquote&gt;
+		&lt;p&gt;Knowledge of the quality of a typeface is of the greatest importance for the functional, aesthetic and psychological effect.&lt;/p&gt;
+		&lt;footer&gt;
+			&lt;cite&gt;— Josef Mueller-Brockmann&lt;/cite&gt;
+		&lt;/footer&gt;
+	&lt;/blockquote&gt;
+&lt;/figure&gt;
+&lt;p&gt;Typefaces don’t look handmade these days. And that’s all right. They don’t have to. Industrialism took that away from them and we’re fine with it. We’ve traded that part of humanity for a process that produces more books that are easier to read. That can’t be bad. And it isn’t.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Humane typography will often be comparatively rough and even uncouth; but while a certain uncouthness does not seriously matter in humane works, uncouthness has no excuse whatever in the productions of the machine.&lt;/p&gt;
+&lt;p&gt;— Eric Gill&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;We’ve come close to “perfection” in the last five centuries. The letters are crisp and without rough edges. We print our compositions with high–precision printers on a high quality, machine made paper.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/eaa988471fd2b61a1d4d313d0d9a5d23/66fdb/type-through-time.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 20%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAEABQDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAT/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAv/aAAwDAQACEAMQAAABtoJUin//xAAWEAEBAQAAAAAAAAAAAAAAAAACABD/2gAIAQEAAQUCMM//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAVEQEBAAAAAAAAAAAAAAAAAAABEP/aAAgBAgEBPwEn/8QAFhAAAwAAAAAAAAAAAAAAAAAAAAEQ/9oACAEBAAY/Ahz/xAAaEAABBQEAAAAAAAAAAAAAAAAhAAEQETFx/9oACAEBAAE/IbEutdR//9oADAMBAAIAAwAAABB8D//EABURAQEAAAAAAAAAAAAAAAAAAAEQ/9oACAEDAQE/EGf/xAAVEQEBAAAAAAAAAAAAAAAAAAAQMf/aAAgBAgEBPxCD/8QAGBABAAMBAAAAAAAAAAAAAAAAAQARIUH/2gAIAQEAAT8QQNG9YkO1rqXP/9k=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source
+              srcset=&quot;/static/eaa988471fd2b61a1d4d313d0d9a5d23/8ac56/type-through-time.webp 240w,
+/static/eaa988471fd2b61a1d4d313d0d9a5d23/d3be9/type-through-time.webp 480w,
+/static/eaa988471fd2b61a1d4d313d0d9a5d23/e46b2/type-through-time.webp 960w,
+/static/eaa988471fd2b61a1d4d313d0d9a5d23/e19c7/type-through-time.webp 1250w&quot;
+              sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+              type=&quot;image/webp&quot;
+            /&gt;
+          &lt;source
+            srcset=&quot;/static/eaa988471fd2b61a1d4d313d0d9a5d23/09b79/type-through-time.jpg 240w,
+/static/eaa988471fd2b61a1d4d313d0d9a5d23/7cc5e/type-through-time.jpg 480w,
+/static/eaa988471fd2b61a1d4d313d0d9a5d23/6a068/type-through-time.jpg 960w,
+/static/eaa988471fd2b61a1d4d313d0d9a5d23/66fdb/type-through-time.jpg 1250w&quot;
+            sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+            type=&quot;image/jpeg&quot;
+          /&gt;
+          &lt;img
+            class=&quot;gatsby-resp-image-image&quot;
+            src=&quot;/static/eaa988471fd2b61a1d4d313d0d9a5d23/6a068/type-through-time.jpg&quot;
+            alt=&quot;type-through-time.jpg&quot;
+            title=&quot;type-through-time.jpg&quot;
+            loading=&quot;lazy&quot;
+            style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+          /&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Type through 5 centuries.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;We lost a part of ourselves because of this chase after perfection. We forgot about the craftsmanship along the way. And the worst part is that we don’t care. The transition to the digital age made that clear. We choose typefaces like clueless zombies. There’s no meaning in our work. Type sizes, leading, margins… It’s all just a few clicks or lines of code. The message isn’t important anymore. There’s no more “why” behind the “what”.&lt;/p&gt;
+&lt;h2 id=&quot;chasing-perfection&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#chasing-perfection&quot; aria-label=&quot;chasing perfection permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Chasing perfection&lt;/h2&gt;
+&lt;p&gt;Human beings aren’t perfect. Perfection is something that will always elude us. There will always be a small part of humanity in everything we do. No matter how small that part, we should make sure that it transcends the limits of the medium. We have to think about the message first. What typeface should we use and why? Does the typeface match the message and what we want to communicate with it? What will be the leading and why? Will there be more typefaces in our design? On what ground will they be combined? What makes our design unique and why? This is the part of humanity that is left in typography. It might be the last part. Are we really going to give it up?&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Originally published by &lt;a href=&quot;http://matejlatin.co.uk/&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;Matej Latin&lt;/a&gt; on &lt;a href=&quot;https://medium.com/design-notes/humane-typography-in-the-digital-age-9bd5c16199bd?ref=webdesignernews.com#.lygo82z0x&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;Medium&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Johannes Gutenberg: The Birth of Movable Type]]></title><description><![CDATA[German inventor Johannes Gutenberg developed a method of movable type and used it to create one of the western world’s first major printed books, the “Forty–Two–Line” Bible.]]></description><link>https://blog.claygao.tw//posts/the-birth-of-movable-type</link><guid isPermaLink="false">https://blog.claygao.tw//posts/the-birth-of-movable-type</guid><pubDate>Fri, 18 Aug 2017 22:12:03 GMT</pubDate><content:encoded>&lt;p&gt;German inventor Johannes Gutenberg developed a method of movable type and used it to create one of the western world’s first major printed books, the “Forty–Two–Line” Bible.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Johannes Gensfleisch zur Laden zum Gutenberg&lt;/strong&gt; (c. 1398 – 1468) was a German blacksmith, goldsmith, printer, and publisher who introduced printing to Europe. His invention of mechanical movable type printing started the Printing Revolution and is widely regarded as the most important event of the modern period. It played a key role in the development of the Renaissance, Reformation, the Age of Enlightenment, and the Scientific revolution and laid the material basis for the modern knowledge-based economy and the spread of learning to the masses.&lt;/p&gt;
+&lt;figure class=&quot;float-right&quot; style=&quot;width: 240px&quot;&gt;
+	&lt;span class=&quot;gatsby-resp-image-wrapper&quot; style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 374px; &quot;&gt;
+      &lt;a class=&quot;gatsby-resp-image-link&quot; href=&quot;/static/3e20438298edd3a3fa746766d803f379/bf505/gutenberg.jpg&quot; style=&quot;display: block&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+    &lt;span class=&quot;gatsby-resp-image-background-image&quot; style=&quot;padding-bottom: 128.33333333333331%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAaABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAQFAQP/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIQAxAAAAFxLehWIgM5WnDA2H//xAAcEAACAgMBAQAAAAAAAAAAAAABAwACERIhBBP/2gAIAQEAAQUC9DjBZi7LvvXIzmGxBcrU8lFDW3QgD6T/xAAUEQEAAAAAAAAAAAAAAAAAAAAg/9oACAEDAQE/AR//xAAUEQEAAAAAAAAAAAAAAAAAAAAg/9oACAECAQE/AR//xAAdEAACAgEFAAAAAAAAAAAAAAAAIQERAhAiMVGh/9oACAEBAAY/AqxIfpYzcInqTkYyVp//xAAeEAEAAgICAwEAAAAAAAAAAAABACERMUFREGFxkf/aAAgBAQABPyEqtgKrlnaB4D+kM9XSRZ57yMzcdC61E18NzM9WH2NXsS+NsAoBPc05Wq8f/9oADAMBAAIAAwAAABAwwzz/xAAUEQEAAAAAAAAAAAAAAAAAAAAg/9oACAEDAQE/EB//xAAUEQEAAAAAAAAAAAAAAAAAAAAg/9oACAECAQE/EB//xAAfEAEAAgICAgMAAAAAAAAAAAABABEhMUFhEFFxgfD/2gAIAQEAAT8QZe2zt6PiYqDXmBN0LB5VnSYWvVocLdL9xtDlqmdub5WAj9B+6gFZa3ZtJWZr3ccF769FEWyhwLI6zecGHrx//9k=&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source srcset=&quot;/static/3e20438298edd3a3fa746766d803f379/8ac56/gutenberg.webp 240w,
+/static/3e20438298edd3a3fa746766d803f379/ad40e/gutenberg.webp 374w&quot; sizes=&quot;(max-width: 374px) 100vw, 374px&quot; type=&quot;image/webp&quot;&gt;
+          &lt;source srcset=&quot;/static/3e20438298edd3a3fa746766d803f379/09b79/gutenberg.jpg 240w,
+/static/3e20438298edd3a3fa746766d803f379/bf505/gutenberg.jpg 374w&quot; sizes=&quot;(max-width: 374px) 100vw, 374px&quot; type=&quot;image/jpeg&quot;&gt;
+          &lt;img class=&quot;gatsby-resp-image-image&quot; src=&quot;/static/3e20438298edd3a3fa746766d803f379/bf505/gutenberg.jpg&quot; alt=&quot;Gutenberg&quot; title=&quot;Gutenberg&quot; loading=&quot;lazy&quot; style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+	&lt;figcaption&gt;Johannes Gutenberg&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;With his invention of the printing press, Gutenberg was the first European to use movable type printing, in around 1439. Among his many contributions to printing are: the invention of a process for mass-producing movable type; the use of oil-based ink; and the use of a wooden printing press similar to the agricultural screw presses of the period. His truly epochal invention was the combination of these elements into a practical system that allowed the mass production of printed books and was economically viable for printers and readers alike. Gutenberg’s method for making type is traditionally considered to have included a type metal alloy and a hand mould for casting type. The alloy was a mixture of lead, tin, and antimony that melted at a relatively low temperature for faster and more economical casting, cast well, and created a durable type.&lt;/p&gt;
+&lt;p&gt;In Renaissance Europe, the arrival of mechanical movable type printing introduced the era of mass communication which permanently altered the structure of society. The relatively unrestricted circulation of information — including revolutionary ideas — transcended borders, captured the masses in the Reformation and threatened the power of political and religious authorities; the sharp increase in literacy broke the monopoly of the literate elite on education and learning and bolstered the emerging middle class. Across Europe, the increasing cultural self-awareness of its people led to the rise of proto-nationalism, accelerated by the flowering of the European vernacular languages to the detriment of Latin’s status as lingua franca. In the 19th century, the replacement of the hand-operated Gutenberg-style press by steam-powered rotary presses allowed printing on an industrial scale, while Western-style printing was adopted all over the world, becoming practically the sole medium for modern bulk printing.&lt;/p&gt;
+&lt;p&gt;The use of movable type was a marked improvement on the handwritten manuscript, which was the existing method of book production in Europe, and upon woodblock printing, and revolutionized European book-making. Gutenberg’s printing technology spread rapidly throughout Europe and later the world.&lt;/p&gt;
+&lt;p&gt;His major work, the Gutenberg Bible (also known as the 42-line Bible), has been acclaimed for its high aesthetic and technical quality.&lt;/p&gt;
+&lt;h2 id=&quot;printing-press&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#printing-press&quot; aria-label=&quot;printing press permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Printing Press&lt;/h2&gt;
+&lt;p&gt;Around 1439, Gutenberg was involved in a financial misadventure making polished metal mirrors (which were believed to capture holy light from religious relics) for sale to pilgrims to Aachen: in 1439 the city was planning to exhibit its collection of relics from Emperor Charlemagne but the event was delayed by one year due to a severe flood and the capital already spent could not be repaid. When the question of satisfying the investors came up, Gutenberg is said to have promised to share a “secret”. It has been widely speculated that this secret may have been the idea of printing with movable type. Also around 1439–1440, the Dutch Laurens Janszoon Coster came up with the idea of printing. Legend has it that the idea came to him “like a ray of light”.&lt;/p&gt;
+&lt;figure class=&quot;float-left&quot; style=&quot;width: 240px&quot;&gt;
+	&lt;span class=&quot;gatsby-resp-image-wrapper&quot; style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 754px; &quot;&gt;
+      &lt;a class=&quot;gatsby-resp-image-link&quot; href=&quot;/static/e2437eaf9c41cfbdb18f88a49699f24e/cbfa4/printing-press.jpg&quot; style=&quot;display: block&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+    &lt;span class=&quot;gatsby-resp-image-background-image&quot; style=&quot;padding-bottom: 128.75%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAaABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAQCAwX/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIQAxAAAAGVTqYwTAr1ARNAP//EABsQAAICAwEAAAAAAAAAAAAAAAECAxEAEiEx/9oACAEBAAEFApNwbbWBmIkXpFCLxuMAwZBWUMKjFUV//8QAFBEBAAAAAAAAAAAAAAAAAAAAIP/aAAgBAwEBPwEf/8QAFBEBAAAAAAAAAAAAAAAAAAAAIP/aAAgBAgEBPwEf/8QAIBAAAgEDBAMAAAAAAAAAAAAAAAERAiExIjJBUWFxkf/aAAgBAQAGPwJxUS6/g78lzwP2bZHpUDnswYRhH//EABwQAAIDAQEBAQAAAAAAAAAAAAERACExQZFR4f/aAAgBAQABPyHglk3AB0nrGMMqXYEgVsvZRojsjZaqBqH2ZIUNAe5FKmWl2PJ+GgNPCf/aAAwDAQACAAMAAAAQ08s8/8QAFBEBAAAAAAAAAAAAAAAAAAAAIP/aAAgBAwEBPxAf/8QAFBEBAAAAAAAAAAAAAAAAAAAAIP/aAAgBAgEBPxAf/8QAHxABAQACAgEFAAAAAAAAAAAAAREAITFBYYGRobHh/9oACAEBAAE/EL1wcj1uS+cMvt9hJoLu0nrgGxaxdBg5Ryp684T1lWbK9GoYtmIz6yaCgdBfD3z8YRTwoGHtznNDhdBQwVKsZsZ+AYgir0M//9k=&apos;); background-size: cover; display: block;&quot;&gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source srcset=&quot;/static/e2437eaf9c41cfbdb18f88a49699f24e/8ac56/printing-press.webp 240w,
+/static/e2437eaf9c41cfbdb18f88a49699f24e/d3be9/printing-press.webp 480w,
+/static/e2437eaf9c41cfbdb18f88a49699f24e/20eb0/printing-press.webp 754w&quot; sizes=&quot;(max-width: 754px) 100vw, 754px&quot; type=&quot;image/webp&quot;&gt;
+          &lt;source srcset=&quot;/static/e2437eaf9c41cfbdb18f88a49699f24e/09b79/printing-press.jpg 240w,
+/static/e2437eaf9c41cfbdb18f88a49699f24e/7cc5e/printing-press.jpg 480w,
+/static/e2437eaf9c41cfbdb18f88a49699f24e/cbfa4/printing-press.jpg 754w&quot; sizes=&quot;(max-width: 754px) 100vw, 754px&quot; type=&quot;image/jpeg&quot;&gt;
+          &lt;img class=&quot;gatsby-resp-image-image&quot; src=&quot;/static/e2437eaf9c41cfbdb18f88a49699f24e/cbfa4/printing-press.jpg&quot; alt=&quot;Early Printing Press&quot; title=&quot;Early Printing Press&quot; loading=&quot;lazy&quot; style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+	&lt;figcaption&gt;Early wooden printing press as depicted in 1568.&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;p&gt;Until at least 1444 he lived in Strasbourg, most likely in the St. Arbogast parish. It was in Strasbourg in 1440 that Gutenberg is said to have perfected and unveiled the secret of printing based on his research, mysteriously entitled Kunst und Aventur (art and enterprise). It is not clear what work he was engaged in, or whether some early trials with printing from movable type may have been conducted there. After this, there is a gap of four years in the record. In 1448, he was back in Mainz, where he took out a loan from his brother-in-law Arnold Gelthus, quite possibly for a printing press or related paraphernalia. By this date, Gutenberg may have been familiar with intaglio printing; it is claimed that he had worked on copper engravings with an artist known as the Master of Playing Cards.&lt;/p&gt;
+&lt;p&gt;By 1450, the press was in operation, and a German poem had been printed, possibly the first item to be printed there. Gutenberg was able to convince the wealthy moneylender Johann Fust for a loan of 800 guilders. Peter Schöffer, who became Fust’s son-in-law, also joined the enterprise. Schöffer had worked as a scribe in Paris and is believed to have designed some of the first typefaces.&lt;/p&gt;
+&lt;figure&gt;
+	&lt;blockquote&gt;
+		&lt;p&gt;All that has been written to me about that marvelous man seen at Frankfurt is true. I have not seen complete Bibles but only a number of quires of various books of the Bible. The script was very neat and legible, not at all difficult to follow—your grace would be able to read it without effort, and indeed without glasses.&lt;/p&gt;
+		&lt;footer&gt;
+			&lt;cite&gt;—Future pope Pius II in a letter to Cardinal Carvajal, March 1455&lt;/cite&gt;
+		&lt;/footer&gt;
+	&lt;/blockquote&gt;
+&lt;/figure&gt;
+&lt;p&gt;Gutenberg’s workshop was set up at Hof Humbrecht, a property belonging to a distant relative. It is not clear when Gutenberg conceived the Bible project, but for this he borrowed another 800 guilders from Fust, and work commenced in 1452. At the same time, the press was also printing other, more lucrative texts (possibly Latin grammars). There is also some speculation that there may have been two presses, one for the pedestrian texts, and one for the Bible. One of the profit-making enterprises of the new press was the printing of thousands of indulgences for the church, documented from 1454–55.&lt;/p&gt;
+&lt;p&gt;In 1455 Gutenberg completed his 42-line Bible, known as the Gutenberg Bible. About 180 copies were printed, most on paper and some on vellum.&lt;/p&gt;
+&lt;h2 id=&quot;court-case&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#court-case&quot; aria-label=&quot;court case permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Court Case&lt;/h2&gt;
+&lt;p&gt;Some time in 1456, there was a dispute between Gutenberg and Fust, and Fust demanded his money back, accusing Gutenberg of misusing the funds. Meanwhile the expenses of the Bible project had proliferated, and Gutenberg’s debt now exceeded 20,000 guilders. Fust sued at the archbishop’s court. A November 1455 legal document records that there was a partnership for a “project of the books,” the funds for which Gutenberg had used for other purposes, according to Fust. The court decided in favor of Fust, giving him control over the Bible printing workshop and half of all printed Bibles.&lt;/p&gt;
+&lt;p&gt;Thus Gutenberg was effectively bankrupt, but it appears he retained (or re-started) a small printing shop, and participated in the printing of a Bible in the town of Bamberg around 1459, for which he seems at least to have supplied the type. But since his printed books never carry his name or a date, it is difficult to be certain, and there is consequently a considerable scholarly debate on this subject. It is also possible that the large Catholicon dictionary, 300 copies of 754 pages, printed in Mainz in 1460, may have been executed in his workshop.&lt;/p&gt;
+&lt;p&gt;Meanwhile, the Fust–Schöffer shop was the first in Europe to bring out a book with the printer’s name and date, the Mainz Psalter of August 1457, and while proudly proclaiming the mechanical process by which it had been produced, it made no mention of Gutenberg.&lt;/p&gt;
+&lt;h2 id=&quot;later-life&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#later-life&quot; aria-label=&quot;later life permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Later Life&lt;/h2&gt;
+&lt;p&gt;In 1462, during a conflict between two archbishops, Mainz was sacked by archbishop Adolph von Nassau, and Gutenberg was exiled. An old man by now, he moved to Eltville where he may have initiated and supervised a new printing press belonging to the brothers Bechtermünze.&lt;/p&gt;
+&lt;p&gt;In January 1465, Gutenberg’s achievements were recognized and he was given the title Hofmann (gentleman of the court) by von Nassau. This honor included a stipend, an annual court outfit, as well as 2,180 litres of grain and 2,000 litres of wine tax-free. It is believed he may have moved back to Mainz around this time, but this is not certain.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Gutenberg died in 1468 and was buried in the Franciscan church at Mainz, his contributions largely unknown. This church and the cemetery were later destroyed, and Gutenberg’s grave is now lost.&lt;/p&gt;
+&lt;p&gt;In 1504, he was mentioned as the inventor of typography in a book by Professor Ivo Wittig. It was not until 1567 that the first portrait of Gutenberg, almost certainly an imaginary reconstruction, appeared in Heinrich Pantaleon’s biography of famous Germans.&lt;/p&gt;
+&lt;h2 id=&quot;printing-method-with-movable-type&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#printing-method-with-movable-type&quot; aria-label=&quot;printing method with movable type permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Printing Method With Movable Type&lt;/h2&gt;
+&lt;p&gt;Gutenberg’s early printing process, and what tests he may have made with movable type, are not known in great detail. His later Bibles were printed in such a way as to have required large quantities of type, some estimates suggesting as many as 100,000 individual sorts. Setting each page would take, perhaps, half a day, and considering all the work in loading the press, inking the type, pulling the impressions, hanging up the sheets, distributing the type, etc., it is thought that the Gutenberg–Fust shop might have employed as many as 25 craftsmen.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/bd0272909c25e194b94dc89edc338274/fa8cd/movable-type.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 66.25%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAANABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAMEAQL/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/aAAwDAQACEAMQAAAB1T5JeycP/8QAGRABAAIDAAAAAAAAAAAAAAAAAQARAiFB/9oACAEBAAEFAuS4hZHPf//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8BP//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQIBAT8BP//EABkQAAIDAQAAAAAAAAAAAAAAAAEQABExUf/aAAgBAQAGPwImUs6//8QAGRABAAMBAQAAAAAAAAAAAAAAAQARIVFB/9oACAEBAAE/IRqzfh2KGcfJjkqGhio5yWNF3Ygip//aAAwDAQACAAMAAAAQ0M//xAAVEQEBAAAAAAAAAAAAAAAAAAARAP/aAAgBAwEBPxBkv//EABYRAAMAAAAAAAAAAAAAAAAAAAABEf/aAAgBAgEBPxCETP/EAB0QAQEAAgIDAQAAAAAAAAAAAAERACExUWGR4fD/2gAIAQEAAT8QR4MNpyWWe3EqqmnMnX3AGHHpcdEGRhEn15y3ZAQtP28DI0zP/9k=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source
+              srcset=&quot;/static/bd0272909c25e194b94dc89edc338274/8ac56/movable-type.webp 240w,
+/static/bd0272909c25e194b94dc89edc338274/d3be9/movable-type.webp 480w,
+/static/bd0272909c25e194b94dc89edc338274/e46b2/movable-type.webp 960w,
+/static/bd0272909c25e194b94dc89edc338274/f992d/movable-type.webp 1440w,
+/static/bd0272909c25e194b94dc89edc338274/882b9/movable-type.webp 1920w,
+/static/bd0272909c25e194b94dc89edc338274/58cee/movable-type.webp 2288w&quot;
+              sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+              type=&quot;image/webp&quot;
+            /&gt;
+          &lt;source
+            srcset=&quot;/static/bd0272909c25e194b94dc89edc338274/09b79/movable-type.jpg 240w,
+/static/bd0272909c25e194b94dc89edc338274/7cc5e/movable-type.jpg 480w,
+/static/bd0272909c25e194b94dc89edc338274/6a068/movable-type.jpg 960w,
+/static/bd0272909c25e194b94dc89edc338274/644c5/movable-type.jpg 1440w,
+/static/bd0272909c25e194b94dc89edc338274/0f98f/movable-type.jpg 1920w,
+/static/bd0272909c25e194b94dc89edc338274/fa8cd/movable-type.jpg 2288w&quot;
+            sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+            type=&quot;image/jpeg&quot;
+          /&gt;
+          &lt;img
+            class=&quot;gatsby-resp-image-image&quot;
+            src=&quot;/static/bd0272909c25e194b94dc89edc338274/6a068/movable-type.jpg&quot;
+            alt=&quot;Movable metal type, and composing stick, descended from Gutenberg&amp;#39;s press. Photo by Willi Heidelbach. Licensed under CC BY 2.5&quot;
+            title=&quot;Movable metal type, and composing stick, descended from Gutenberg&amp;#39;s press. Photo by Willi Heidelbach. Licensed under CC BY 2.5&quot;
+            loading=&quot;lazy&quot;
+            style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+          /&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Movable metal type, and composing stick, descended from Gutenberg’s press. Photo by Willi Heidelbach. Licensed under CC BY 2.5&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Gutenberg’s technique of making movable type remains unclear. In the following decades, punches and copper matrices became standardized in the rapidly disseminating printing presses across Europe. Whether Gutenberg used this sophisticated technique or a somewhat primitive version has been the subject of considerable debate.&lt;/p&gt;
+&lt;p&gt;In the standard process of making type, a hard metal punch (made by punchcutting, with the letter carved back to front) is hammered into a softer copper bar, creating a matrix. This is then placed into a hand-held mould and a piece of type, or “sort”, is cast by filling the mould with molten type-metal; this cools almost at once, and the resulting piece of type can be removed from the mould. The matrix can be reused to create hundreds, or thousands, of identical sorts so that the same character appearing anywhere within the book will appear very uniform, giving rise, over time, to the development of distinct styles of typefaces or fonts. After casting, the sorts are arranged into type-cases, and used to make up pages which are inked and printed, a procedure which can be repeated hundreds, or thousands, of times. The sorts can be reused in any combination, earning the process the name of “movable type”.&lt;/p&gt;
+&lt;p&gt;The invention of the making of types with punch, matrix and mold has been widely attributed to Gutenberg. However, recent evidence suggests that Gutenberg’s process was somewhat different. If he used the punch and matrix approach, all his letters should have been nearly identical, with some variations due to miscasting and inking. However, the type used in Gutenberg’s earliest work shows other variations.&lt;/p&gt;
+&lt;figure&gt;
+	&lt;blockquote&gt;
+		&lt;p&gt;It is a press, certainly, but a press from which shall flow in inexhaustible streams… Through it, god will spread his word.&lt;/p&gt;
+		&lt;footer&gt;
+			&lt;cite&gt;—Johannes Gutenberg&lt;/cite&gt;
+		&lt;/footer&gt;
+	&lt;/blockquote&gt;
+&lt;/figure&gt;
+&lt;p&gt;In 2001, the physicist Blaise Agüera y Arcas and Princeton librarian Paul Needham, used digital scans of a Papal bull in the Scheide Library, Princeton, to carefully compare the same letters (types) appearing in different parts of the printed text. The irregularities in Gutenberg’s type, particularly in simple characters such as the hyphen, suggested that the variations could not have come from either ink smear or from wear and damage on the pieces of metal on the types themselves. While some identical types are clearly used on other pages, other variations, subjected to detailed image analysis, suggested that they could not have been produced from the same matrix. Transmitted light pictures of the page also appeared to reveal substructures in the type that could not arise from traditional punchcutting techniques. They hypothesized that the method may have involved impressing simple shapes to create alphabets in “cuneiform” style in a matrix made of some soft material, perhaps sand. Casting the type would destroy the mould, and the matrix would need to be recreated to make each additional sort. This could explain the variations in the type, as well as the substructures observed in the printed images.&lt;/p&gt;
+&lt;p&gt;Thus, they feel that “the decisive factor for the birth of typography”, the use of reusable moulds for casting type, might have been a more progressive process than was previously thought. They suggest that the additional step of using the punch to create a mould that could be reused many times was not taken until twenty years later, in the 1470s. Others have not accepted some or all of their suggestions, and have interpreted the evidence in other ways, and the truth of the matter remains very uncertain.&lt;/p&gt;
+&lt;p&gt;A 1568 history by Hadrianus Junius of Holland claims that the basic idea of the movable type came to Gutenberg from Laurens Janszoon Coster via Fust, who was apprenticed to Coster in the 1430s and may have brought some of his equipment from Haarlem to Mainz. While Coster appears to have experimented with moulds and castable metal type, there is no evidence that he had actually printed anything with this technology. He was an inventor and a goldsmith. However, there is one indirect supporter of the claim that Coster might be the inventor. The author of the Cologne Chronicle of 1499 quotes Ulrich Zell, the first printer of Cologne, that printing was performed in Mainz in 1450, but that some type of printing of lower quality had previously occurred in the Netherlands. However, the chronicle does not mention the name of Coster, while it actually credits Gutenberg as the “first inventor of printing” in the very same passage (fol. 312). The first securely dated book by Dutch printers is from 1471, and the Coster connection is today regarded as a mere legend.&lt;/p&gt;
+&lt;p&gt;The 19th century printer and typefounder Fournier Le Jeune suggested that Gutenberg might not have been using type cast with a reusable matrix, but possibly wooden types that were carved individually. A similar suggestion was made by Nash in 2004. This remains possible, albeit entirely unproven.&lt;/p&gt;
+&lt;p&gt;It has also been questioned whether Gutenberg used movable types at all. In 2004, Italian professor Bruno Fabbiani claimed that examination of the 42-line Bible revealed an overlapping of letters, suggesting that Gutenberg did not in fact use movable type (individual cast characters) but rather used whole plates made from a system somewhat like a modern typewriter, whereby the letters were stamped successively into the plate and then printed. However, most specialists regard the occasional overlapping of type as caused by paper movement over pieces of type of slightly unequal height.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[The Origins of Social Stationery Lettering]]></title><description><![CDATA[Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.]]></description><link>https://blog.claygao.tw//posts/the-origins-of-social-stationery-lettering</link><guid isPermaLink="false">https://blog.claygao.tw//posts/the-origins-of-social-stationery-lettering</guid><pubDate>Thu, 01 Dec 2016 22:40:32 GMT</pubDate><content:encoded>&lt;p&gt;&lt;strong&gt;Pellentesque habitant morbi tristique&lt;/strong&gt; senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. &lt;em&gt;Aenean ultricies mi vitae est.&lt;/em&gt; Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. &lt;/p&gt;
+&lt;p&gt;Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui.  &lt;a href=&quot;#&quot;&gt;Donec non enim&lt;/a&gt; in turpis pulvinar facilisis.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/732bbf5c4fdcc63ac39e10f8f82a3435/d9c39/image-3.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 75%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAQBAgP/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/aAAwDAQACEAMQAAABfVKJiSH/xAAaEAEAAwADAAAAAAAAAAAAAAACAAESAyEy/9oACAEBAAEFAmsz1HyUUlWh3ENX/8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPwE//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAgEBPwE//8QAGhAAAgIDAAAAAAAAAAAAAAAAAAEQESFRYf/aAAgBAQAGPwLpkqixPTj/xAAaEAACAwEBAAAAAAAAAAAAAAAAAREhMUGx/9oACAEBAAE/IUVVhS24c101z0lpaZnT0TI+Uf/aAAwDAQACAAMAAAAQby//xAAXEQADAQAAAAAAAAAAAAAAAAAAAREh/9oACAEDAQE/EFEYf//EABYRAQEBAAAAAAAAAAAAAAAAAAEQEf/aAAgBAgEBPxB1n//EABsQAQEBAAMBAQAAAAAAAAAAAAERACExUUGh/9oACAEBAAE/EDAqfPMB1RCeCH5mwNBUHOQq1qdGTO7KHHGIUBrp4u//2Q==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source
+              srcset=&quot;/static/732bbf5c4fdcc63ac39e10f8f82a3435/8ac56/image-3.webp 240w,
+/static/732bbf5c4fdcc63ac39e10f8f82a3435/d3be9/image-3.webp 480w,
+/static/732bbf5c4fdcc63ac39e10f8f82a3435/e46b2/image-3.webp 960w,
+/static/732bbf5c4fdcc63ac39e10f8f82a3435/f992d/image-3.webp 1440w,
+/static/732bbf5c4fdcc63ac39e10f8f82a3435/62ed8/image-3.webp 1800w&quot;
+              sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+              type=&quot;image/webp&quot;
+            /&gt;
+          &lt;source
+            srcset=&quot;/static/732bbf5c4fdcc63ac39e10f8f82a3435/09b79/image-3.jpg 240w,
+/static/732bbf5c4fdcc63ac39e10f8f82a3435/7cc5e/image-3.jpg 480w,
+/static/732bbf5c4fdcc63ac39e10f8f82a3435/6a068/image-3.jpg 960w,
+/static/732bbf5c4fdcc63ac39e10f8f82a3435/644c5/image-3.jpg 1440w,
+/static/732bbf5c4fdcc63ac39e10f8f82a3435/d9c39/image-3.jpg 1800w&quot;
+            sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+            type=&quot;image/jpeg&quot;
+          /&gt;
+          &lt;img
+            class=&quot;gatsby-resp-image-image&quot;
+            src=&quot;/static/732bbf5c4fdcc63ac39e10f8f82a3435/6a068/image-3.jpg&quot;
+            alt=&quot;Nulla faucibus vestibulum eros in tempus. Vestibulum tempor imperdiet velit nec dapibus&quot;
+            title=&quot;Nulla faucibus vestibulum eros in tempus. Vestibulum tempor imperdiet velit nec dapibus&quot;
+            loading=&quot;lazy&quot;
+            style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+          /&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h2 id=&quot;header-level-2&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#header-level-2&quot; aria-label=&quot;header level 2 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Header Level 2&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit.&lt;/li&gt;
+&lt;li&gt;Aliquam tincidunt mauris eu risus.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. &lt;/p&gt;
+&lt;figure&gt;
+	&lt;blockquote&gt;
+		&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue. Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam. Vivamus pretium ornare est.&lt;/p&gt;
+		&lt;footer&gt;
+			&lt;cite&gt;— Aliquam tincidunt mauris eu risus.&lt;/cite&gt;
+		&lt;/footer&gt;
+	&lt;/blockquote&gt;
+&lt;/figure&gt;
+&lt;h3 id=&quot;header-level-3&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#header-level-3&quot; aria-label=&quot;header level 3 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Header Level 3&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit.&lt;/li&gt;
+&lt;li&gt;Aliquam tincidunt mauris eu risus.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;css&quot;&gt;&lt;pre class=&quot;language-css&quot;&gt;&lt;code class=&quot;language-css&quot;&gt;&lt;span class=&quot;token selector&quot;&gt;#header h1 a&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;display&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; block&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; 300px&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; 80px&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/71ba9417da76c390c80ad2f49c9c227d/cpu.svg&quot; alt=&quot;Test SVG&quot;&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Perfecting the Art of Perfection]]></title><description><![CDATA[Quisque cursus, metus vitae pharetra auctor, sem massa mattis sem, at interdum magna augue eget diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Praesent blandit dolor. Sed non quam. In vel mi sit amet augue congue elementum.]]></description><link>https://blog.claygao.tw//posts/perfecting-the-art-of-perfection</link><guid isPermaLink="false">https://blog.claygao.tw//posts/perfecting-the-art-of-perfection</guid><pubDate>Thu, 01 Sep 2016 23:46:37 GMT</pubDate><content:encoded>&lt;p&gt;Quisque cursus, metus vitae pharetra auctor, sem massa mattis sem, at interdum magna augue eget diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Praesent blandit dolor. Sed non quam. In vel mi sit amet augue congue elementum.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/0249a8579cfb4088acaf23fcac068444/d9c39/image-2.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 66.66666666666666%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAANABQDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAQBAgMF/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/2gAMAwEAAhADEAAAAaa8hyWBEP/EABoQAAIDAQEAAAAAAAAAAAAAAAECAAMSBBP/2gAIAQEAAQUCbnLzNmfQpFcgt1WZn//EABURAQEAAAAAAAAAAAAAAAAAAAAR/9oACAEDAQE/AVf/xAAVEQEBAAAAAAAAAAAAAAAAAAAAEf/aAAgBAgEBPwFH/8QAHRAAAAYDAQAAAAAAAAAAAAAAAAECEBESISJxof/aAAgBAQAGPwKbkNYVwVWWWr63/8QAGxAAAgMBAQEAAAAAAAAAAAAAAREAITFRYZH/2gAIAQEAAT8h4/CbqGqoAvH2bwuzSXC1EA8C45//2gAMAwEAAgADAAAAECAP/8QAFxEBAQEBAAAAAAAAAAAAAAAAAQARMf/aAAgBAwEBPxATtq//xAAXEQEBAQEAAAAAAAAAAAAAAAABABEx/9oACAECAQE/EEeWb//EAB0QAQACAgIDAAAAAAAAAAAAAAEAESFRQXExYaH/2gAIAQEAAT8Q8maKQ0Osxgrk11gcIzHsBgv5BCW233uWAbGAD1qKtW1cq8z/2Q==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source
+              srcset=&quot;/static/0249a8579cfb4088acaf23fcac068444/8ac56/image-2.webp 240w,
+/static/0249a8579cfb4088acaf23fcac068444/d3be9/image-2.webp 480w,
+/static/0249a8579cfb4088acaf23fcac068444/e46b2/image-2.webp 960w,
+/static/0249a8579cfb4088acaf23fcac068444/f992d/image-2.webp 1440w,
+/static/0249a8579cfb4088acaf23fcac068444/62ed8/image-2.webp 1800w&quot;
+              sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+              type=&quot;image/webp&quot;
+            /&gt;
+          &lt;source
+            srcset=&quot;/static/0249a8579cfb4088acaf23fcac068444/09b79/image-2.jpg 240w,
+/static/0249a8579cfb4088acaf23fcac068444/7cc5e/image-2.jpg 480w,
+/static/0249a8579cfb4088acaf23fcac068444/6a068/image-2.jpg 960w,
+/static/0249a8579cfb4088acaf23fcac068444/644c5/image-2.jpg 1440w,
+/static/0249a8579cfb4088acaf23fcac068444/d9c39/image-2.jpg 1800w&quot;
+            sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+            type=&quot;image/jpeg&quot;
+          /&gt;
+          &lt;img
+            class=&quot;gatsby-resp-image-image&quot;
+            src=&quot;/static/0249a8579cfb4088acaf23fcac068444/6a068/image-2.jpg&quot;
+            alt=&quot;Nulla faucibus vestibulum eros in tempus. Vestibulum tempor imperdiet velit nec dapibus&quot;
+            title=&quot;Nulla faucibus vestibulum eros in tempus. Vestibulum tempor imperdiet velit nec dapibus&quot;
+            loading=&quot;lazy&quot;
+            style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+          /&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. &lt;/p&gt;
+&lt;p&gt;Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[A Brief History of Typography]]></title><description><![CDATA[Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.]]></description><link>https://blog.claygao.tw//posts/a-brief-history-of-typography</link><guid isPermaLink="false">https://blog.claygao.tw//posts/a-brief-history-of-typography</guid><pubDate>Tue, 02 Feb 2016 22:40:32 GMT</pubDate><content:encoded>&lt;p&gt;&lt;strong&gt;Pellentesque habitant morbi tristique&lt;/strong&gt; senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. &lt;em&gt;Aenean ultricies mi vitae est.&lt;/em&gt; Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. &lt;/p&gt;
+&lt;p&gt;Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui.  &lt;a href=&quot;#&quot;&gt;Donec non enim&lt;/a&gt; in turpis pulvinar facilisis.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/b3e5e61f7fb8888ba76b502242e27bd0/d9c39/image-0.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 66.66666666666666%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAANABQDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAwAE/8QAFgEBAQEAAAAAAAAAAAAAAAAAAgED/9oADAMBAAIQAxAAAAFYTebWei//xAAcEAABAwUAAAAAAAAAAAAAAAABAAIhAxESMkH/2gAIAQEAAQUCBQkPxvKp6d//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/AT//xAAZEAACAwEAAAAAAAAAAAAAAAAAARAhYXH/2gAIAQEABj8CmhaPp//EABwQAQADAQADAQAAAAAAAAAAAAEAESExQWFxkf/aAAgBAQABPyG2s3zDlwtPso2l+4urVTU7nen9iDmYif/aAAwDAQACAAMAAAAQVy//xAAWEQADAAAAAAAAAAAAAAAAAAAAASH/2gAIAQMBAT8QShD/xAAWEQADAAAAAAAAAAAAAAAAAAAAASH/2gAIAQIBAT8QbpT/xAAdEAEAAgIDAQEAAAAAAAAAAAABABEhMUFRYXGR/9oACAEBAAE/EBqFjmHHCQKTXget+R0cJnJjlDcKlul/L4gKW10tG7HcIO4FdP2f/9k=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source
+              srcset=&quot;/static/b3e5e61f7fb8888ba76b502242e27bd0/8ac56/image-0.webp 240w,
+/static/b3e5e61f7fb8888ba76b502242e27bd0/d3be9/image-0.webp 480w,
+/static/b3e5e61f7fb8888ba76b502242e27bd0/e46b2/image-0.webp 960w,
+/static/b3e5e61f7fb8888ba76b502242e27bd0/f992d/image-0.webp 1440w,
+/static/b3e5e61f7fb8888ba76b502242e27bd0/62ed8/image-0.webp 1800w&quot;
+              sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+              type=&quot;image/webp&quot;
+            /&gt;
+          &lt;source
+            srcset=&quot;/static/b3e5e61f7fb8888ba76b502242e27bd0/09b79/image-0.jpg 240w,
+/static/b3e5e61f7fb8888ba76b502242e27bd0/7cc5e/image-0.jpg 480w,
+/static/b3e5e61f7fb8888ba76b502242e27bd0/6a068/image-0.jpg 960w,
+/static/b3e5e61f7fb8888ba76b502242e27bd0/644c5/image-0.jpg 1440w,
+/static/b3e5e61f7fb8888ba76b502242e27bd0/d9c39/image-0.jpg 1800w&quot;
+            sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+            type=&quot;image/jpeg&quot;
+          /&gt;
+          &lt;img
+            class=&quot;gatsby-resp-image-image&quot;
+            src=&quot;/static/b3e5e61f7fb8888ba76b502242e27bd0/6a068/image-0.jpg&quot;
+            alt=&quot;Nulla faucibus vestibulum eros in tempus. Vestibulum tempor imperdiet velit nec dapibus&quot;
+            title=&quot;Nulla faucibus vestibulum eros in tempus. Vestibulum tempor imperdiet velit nec dapibus&quot;
+            loading=&quot;lazy&quot;
+            style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+          /&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h2 id=&quot;header-level-2&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#header-level-2&quot; aria-label=&quot;header level 2 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Header Level 2&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit.&lt;/li&gt;
+&lt;li&gt;Aliquam tincidunt mauris eu risus.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. &lt;/p&gt;
+&lt;figure&gt;
+	&lt;blockquote&gt;
+		&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue. Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam. Vivamus pretium ornare est.&lt;/p&gt;
+		&lt;footer&gt;
+			&lt;cite&gt;— Aliquam tincidunt mauris eu risus.&lt;/cite&gt;
+		&lt;/footer&gt;
+	&lt;/blockquote&gt;
+&lt;/figure&gt;
+&lt;h3 id=&quot;header-level-3&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#header-level-3&quot; aria-label=&quot;header level 3 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Header Level 3&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit.&lt;/li&gt;
+&lt;li&gt;Aliquam tincidunt mauris eu risus.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;css&quot;&gt;&lt;pre class=&quot;language-css&quot;&gt;&lt;code class=&quot;language-css&quot;&gt;&lt;span class=&quot;token selector&quot;&gt;#header h1 a&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;display&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; block&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; 300px&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; 80px&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.&lt;/p&gt;</content:encoded></item></channel></rss>
