@@ -3,7 +3,7 @@ title: "[記錄] 從零打造一個屬於你自己的 Hugo Blog !"
 date: "2020-02-19T22:40:32.169Z"
 template: "post"
 draft: false
-slug: ":D"
+slug: "build-your-hugo-blog"
 category: "hugo"
 tags:
   - "Hugo"
