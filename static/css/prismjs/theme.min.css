@@ -6,6 +6,41 @@ https://prismjs.com/download.html#themes=prism-tomorrow&languages=markup+css+cli
  * @author Rose Pritchard
  */
 
+ /**
+ * For Highlight code lines
+ *
+ */
+ .gatsby-highlight-code-line {
+    background-color: rgb(32, 30, 30);
+    display: block;
+    margin-right: -1em;
+    margin-left: -1em;
+    padding-right: 1em;
+    padding-left: 0.3em;
+    border-left: 0.5em solid rgb(224, 146, 0);
+  }
+
+  /**
+ * Add back the container background-color, border-radius, padding, margin
+ * and overflow that we removed from <pre>.
+ */
+  .gatsby-highlight {
+    background-color: #424040;
+    border-radius: 0.3em;
+    margin: 0.5em 0;
+    padding: 1em;
+    overflow: auto;
+    border:rgb(241, 202, 143) 10px solid;
+    -webkit-filter: drop-shadow(12px 12px 7px rgba(0, 0, 0.3, 0.5));
+    filter: drop-shadow(12px 12px 7px rgba(0, 0, 0.3, 0.5));
+  }
+
+  .gatsby-highlight pre[class*="language-"].line-numbers {
+    padding-left: 2.8em;
+  }
+  
+  
+
  code[class*="language-"],
  pre[class*="language-"] {
      color: #ccc;
@@ -27,6 +62,7 @@ https://prismjs.com/download.html#themes=prism-tomorrow&languages=markup+css+cli
      -moz-hyphens: none;
      -ms-hyphens: none;
      hyphens: none;
+    
  }
  
  /* Code blocks */
@@ -34,22 +70,17 @@ https://prismjs.com/download.html#themes=prism-tomorrow&languages=markup+css+cli
      padding: 1em;
      margin: .5em 0;
      overflow: auto;
-     border:rgb(241, 202, 143) 5px solid;
      transition: 0.3s all;
-     -webkit-filter: drop-shadow(12px 12px 7px rgba(0, 0, 0.3, 0.5));
-    filter: drop-shadow(12px 12px 7px rgba(0, 0, 0.3, 0.5))
-     
+     overflow: initial;
+     -webkit-filter: drop-shadow(12px 17px 7px rgba(0, 0, 0, 0.7));
+    filter: drop-shadow(20px 12px 7px rgba(0, 0, 0, 0.8));
  }
-
- pre[class*="language-"]:hover {
-    border:rgb(204, 112, 112) 5px solid;
-    -webkit-filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7));
-    filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7))
-  }
  
  :not(pre) > code[class*="language-"],
  pre[class*="language-"] {
-     background: #424040;
+     background: transparent;
+     margin: 0;
+     padding: 0;
  }
  
  /* Inline code */

@@ -14,24 +14,28 @@ socialImage: "/media/42-line-bible.jpg"
 
 ## 前言
 
-之前在學習 Prototype 的時候算是斷斷續續在理解的，怎麼說呢 ? 一開始是在上課的時候學習，那時候懂了一半，而接續兩次作業之後又認為自己懂了，這是第二次以為自己理解。
-直到最近準備面試題目，學習 JavaScript 內的 OOP 時，發現對於 Prototype 的理解還是不太記得，於是就想說這次一氣呵成整理一下。
-因為是複習，所以不算非常全面，若有錯誤也希望能夠被指正，這樣的機會是可遇不可求的。
+這篇文章原本在一年多前曾經寫在 Medium 上，算是當時為了準備面試而寫的筆記文，不過現在再重看一次覺得還有很多部分可以改進，於是就想說再來改寫一下，順便當作 Blog 的第一篇文章。
 
----
+內容比較多是幫助新手去理解以下幾點：
+
+1. Function 與 Prototype 的關係
+2. `new` 本身到底做了什麼？
+3. `__proto__` 又是什麼？
+
+所以現在就讓咱們開始吧：
 
 ## 一切的一切，都從 JavaScript 中的物件導向開始
 
-什麼是物件導向 ? 我相信你已經爬過一些文章了，這些文章大多用狗和汽車來做舉例，也就是我有一張設計圖，然後利用這張設計圖來創造一些實體 (instance)，在 JavaScript ES5 中，看起來會是這個樣子：
+什麼是物件導向 ? 我相信你已經爬過一些文章了，這些文章大多用狗和汽車來做舉例，在概念的舉例上，就是我有一張設計圖 (藍圖)，然後利用這張設計圖來創造一些實體 (instance)，在 JavaScript ES5 中，看起來會是這個樣子：
 
-```js
+```js{numberLines: true}
 function Car(color) {
-    this.color = color
+    this.color = color 
 }
+
 Car.prototype.getName = function() {
     return this.color
 }
-
 
 const ford = new Car("red")
 console.log(ford.color) // red
@@ -47,13 +51,15 @@ console.log(ford.getName()) // red
 我寫過幾萬次的 function 了，怎麼都沒察覺 prototype 這個東西 ?
 我再貼一次剛剛的例子 :
 
-```js
+```js{numberLines: true}
 function Car(color) {
- this.color = color
+    this.color = color
 }
+
 Car.prototype.getName = function() {
- return this.color
+    return this.color
 }
+
 const ford = new Car("red")
 console.log(ford.color) // red
 console.log(ford.getName()) // red
@@ -65,7 +71,7 @@ console.log(ford.getName()) // red
 那麼既然 `Car` 依然是一個普通的 Function，但它可以使用 `prototype` 來定義方法，那我們是不是可以推論，其實 Function 都帶有 prototype ?
 為了驗證上述說法，我們寫一段 Code :
 
-```js
+```js{numberLines: true}
 function Car(color) {
  this.color = color
 }
@@ -78,7 +84,7 @@ console.log(test.prototype) // test {}
 
 這邊我宣告了一個普通函式叫做 `test`，然後我印出兩者的 prototype，可以看到分別是 `Car { }` 與 `test { }` 兩個物件，為了驗證 prototype 就是我印出的這個 `{ }`，我幫他們的 prototype 都加上了新的屬性 and 方法：
 
-```js
+```js{numberLines: true}
 function Car(color) {
  this.color = color
 }
@@ -108,7 +114,7 @@ console.log(test.prototype) // test { sayHi: 'Hi' }
 
 要看一個 instance 是會找向哪一個 Prototype，用 `__proto__` 就可以看出來了，用我們最初的範例來舉例：
 
-```js
+```js{numberLines: true}
 function Car(color) {
  this.color = color
 }
@@ -125,7 +131,7 @@ console.log(ford.__proto__ === Car.prototype) // true
 
 而比起 `__proto__` ，其實更推薦使用 `Object.getPrototypeOf()` 這個語法，它會 return 該 instance 指向的 Prototype，這個用法感覺也比較技術性：
 
-```js
+```js{numberLines: true}
 function Car(color) {
  this.color = color
 }
@@ -143,7 +149,7 @@ console.log(Object.getPrototypeOf(ford) === Car.prototype) // true
 那為什麼會提 `__proto__` ? 如果用白話來表示，我會習慣稱呼它為「該物件所指向的原型」，「原型」指的就是 Prototype， 因為 `ford` 是 new 自於 `Car` 的，所以 `ford.__proto__` 就會指向 `Car.prototype`，也就是都指向同一個記憶體位置。
 既然物件可以用 `__proto__` 來找到它的原型，那我們來試試看下列幾個：
 
-```js
+```js{numberLines: true}
 function Car(color) {
  this.color = color
 }
@@ -205,7 +211,7 @@ console.log(Car.__proto__.__proto__) // { }
 
 所以接下來的 `Car.__proto__.__proto__.__proto__` 已經找到了最頂層以外了，所以回傳 `null`：
 
-```js
+```js{numberLines: true}
 console.log(Car.__proto__.__proto__.__proto__) // null
 ```
 
@@ -217,7 +223,7 @@ console.log(Car.__proto__.__proto__.__proto__) // null
 
 不只是函式，讓我們也針對物件(Object) 與陣列(Array) 實驗看看：
 
-```js
+```js{numberLines: true}
 // new 一個 Function
 var count = new Function('a','b','return a + b')
 // new 一個 Object
@@ -251,7 +257,7 @@ console.log(arrB) // [1, 2]
 
 現在先假設我們不知道有 new，然後我寫一些 code，以模擬讓 Car 這個函式實體化一個 instance
 
-```js
+```js{numberLines: true}
 function Car(color) {
  this.color = color
 }
@@ -282,7 +288,7 @@ ford.getColor() // black
 
 最後，我們再重溫一下一開始的範例
 
-```js
+```js{numberLines: true}
 function Car(color) {
  this.color = color
 }
@@ -298,7 +304,7 @@ console.log(ford.getName()) // red
 
 假設 `Car.prototype` 自已也沒有 `getName`，但我若寫在更上層的 `Object.prototype.getName = function ...`，那麼 `ford` 也可以存取得到，因為 `ford` 會透過 `__proto__` 繼續往上查找，我們在稍早也模擬過這個過程。
 
-```js
+```js{numberLines: true}
 function Car(color) {
  this.color = color
 }
