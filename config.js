@@ -12,16 +12,16 @@ module.exports = {
   useKatex: false,
   menu: [
     {
-      label: 'Articles',
+      label: '文章列表',
       path: '/'
     },
     {
-      label: 'About me',
-      path: '/pages/about'
+      label: '文章索引',
+      path: '/pages/archives'
     },
     {
-      label: 'Contact me',
-      path: '/pages/contacts'
+      label: '關於我',
+      path: '/pages/about'
     }
   ],
   author: {
@@ -29,7 +29,7 @@ module.exports = {
     photo: '/clay.png',
     bio: '阿姨我不想努力了',
     contacts: {
-      email: 'r700000@gmail.com',
+      email: '',
       facebook: '',
       telegram: '',
       twitter: 'claygao_',
