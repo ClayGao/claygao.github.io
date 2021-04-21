@@ -14,45 +14,52 @@ description: "講解何謂編譯和直譯，並且帶到 V8 與 Eslint"
 socialImage: "/media/42-line-bible.jpg"
 ---
 
-## 前言
+## 前言https://v8.dev/blog/lazy-unlinking
 
-在工作將近一年之後，接觸到的前端開發工具實在不在少數，其中當然也包括了 ESlint、Webpack 與 Babel 等等
+研究緣由其實也沒什麼特別的原因，主要就是開發時仍然不懂瀏覽器底層更詳細的運作方式，在工作與自身開發時總有一種見樹不見林的感覺，趁最近時間比較多，想把查到的資料筆記並整理一番，僅此而已。
 
-由於最近想參考 eslint-config-airbnb 與 eslint-config-standard 的架構，自己建構一份自己常在用的 ESlint config，所以就大概把過去對 ESlint 的了解審視過一遍，發現自己好像還不是很懂一些 eslintrc.js 中的參數意義
+主要架構就是和標題一樣，研究 JavaScript Engine 與 AST，這邊會帶大家來看平常我們開發時，JavaScript Engine 大致運作上的方式，然後帶到 V8，最後則是再回頭來講 AST 的部分。
 
-也就是說，大致上隨便查都還是知道這些參數是在講什麼，但是卻不懂解釋，另外又剛好最近看到 mentor 有在玩寫自己的 Eslint rules，於是就想講一篇自己是怎麼從「完全不懂」到「大致理解」的過程
-
-不過要解釋這些東西，得從一些很底層的東西開始說起，但是說真的它並不難懂，廢話不多說，咱們馬上開始：
+不過在開始之前，需要先從最基本的概念，也就是編譯和直譯開始講解。
 
 ## 編譯的 (Compiled) 與直譯的 (interpreted)
 
-很多的教學與概念文章，都會在編譯式與直譯式後面加上「語言」，比如說 C# 是屬於編譯式語言，JavaScript 是屬於直譯式語言，然後，然後就沒有然後了
+很多的教學與概念文章，都會在編譯式與直譯式後面加上「語言」，比如說 C 是屬於編譯式語言，JavaScript 是屬於直譯式語言，然後，然後就沒有然後了
 
-我覺得比起去記什麼語言是屬於編譯還是直譯，更重要的是要理解「編譯」與「直譯」的基本概念，最近看到一個很棒的解釋：
+其實，比起去記什麼語言是屬於編譯還是直譯，更重要的是要理解「編譯」與「直譯」的基本概念，然後再用這個概念回頭思考自己所使用的語言，才能真正融會貫通。
 
-### 編譯
+這邊會介紹最近看到一個很棒的解釋，並融合一些自己的話語：
 
-編譯的意思，就是**先把我們平常在寫的 code，變成另外一種具體的文本形式**，也就是另一種語言
+### 編譯 (Compiled)
 
-你可以這樣理解，我們有一位「文本翻譯員」，將一本用中文寫的書，翻譯並另外抄寫成另一本英文書，然後再拿給懂英文的人看
+編譯的意思，就是**先把我們平常在寫的 code，變成另外一種具體的文本形式**，也就是另一種語言。
 
-而這位「文本翻譯員」，在程式的世界中，我們稱呼他為「編譯器」(Compiler)
+你可以這樣理解：我們有一位「文本翻譯員」，將一本用中文寫的書，翻譯並另外抄寫成另一本英文書，然後再拿給懂英文的人看。
 
-翻譯成另外一種文本之後，因為已經是目標物看得懂的語言了 (比如說懂英文的人直接看已翻譯成英文的書籍)，所以在「執行上」會比較快速
+而這位「文本翻譯員」，在程式的世界中，我們稱呼他為「編譯器」(Compiler)。
 
-### 直譯
+翻譯成另外一種文本之後，因為已經是目標物看得懂的語言了 (比如說懂英文的人直接看已翻譯成英文的書籍)，所以在「執行上」就會比較快速。
 
-直譯的意思，就是直接在執行我們平常在寫的 code 時，**一邊執行一邊翻譯**
+另一種概念則是直譯
 
-用類似上述舉例的方式再理解的話，那就是我們現在有一位「口説翻譯員」，將一本中文的書籍，直接看過之後唸成英文，然後給懂英文的人聽
+### 直譯 (interpreted)
 
-你可以這樣去想：這位 「口説翻譯員」，在程式的世界中，我們稱呼他為「直譯器」(Interpreter)
+直譯的意思，就是直接在執行我們平常在寫的 code 時，**一邊執行一邊翻譯**。
+
+用類似上述舉例的方式再理解的話，可以形容為：我們現在有一位「口説翻譯員」，將一本中文的書籍，直接一邊看過，一邊翻譯給懂英文的人聽。
+
+這位 「口説翻譯員」在程式的世界中，我們稱呼他為「直譯器」(Interpreter)。
 
 直譯在執行上會比較慢一點，畢竟是一個一邊翻譯，一邊執行的過程。
 
 ### 各自差異
 
-先大致了解上述的概念後，我們才去定義：需要先經過編譯才能夠執行的語言，稱為編譯式語言；而若其撰寫出的程式可以一邊執行一邊直譯的，則稱為直譯式語言。
+先大致了解上述的概念後，我們才去定義：
+
+- 需要先經過編譯才能夠執行的語言，稱為編譯式語言。
+- 若其撰寫出的程式可以一邊執行一邊直譯的，則稱為直譯式語言。
+  
+但這不是絕對的，下面會提到。
 
 大概整理出幾點差異：
 
@@ -77,23 +84,26 @@ socialImage: "/media/42-line-bible.jpg"
 
 不過儘管編譯式語言在執行上比直譯式快，但在整體開發、靈活性與除錯性種種因素考慮之下，直譯式語言的優點反而突現了出來。隨時可執行，隨時可除錯的特點，這點在寫 JavaScript 的開發者都不陌生。
 
-**編譯式**：
+再次整理一下：
 
-> 編輯 -> 編譯 -> 執行 -> 除錯
+|特性  | **編譯式 (Compiled)** | **直譯式(Interpreted)** |
+|:----------------|:------------------|:-------------|
+|概覽|編輯 -> 編譯 -> 執行 -> 除錯|編輯 -> 執行 & 直譯 -> 除錯|
+|靈活性|低|高|
+|型別強度|強|弱|
+|獨立性|大多不需執行環境|大多需要執行環境|
 
-**直譯式**：
+所以現在再去回想 JavaScript 的特性，其實就很清楚了，與上述關於直譯式語言的描述多有符合。
 
-> 編輯 -> 執行 & 直譯 -> 除錯
-
-所以現在再去回想，自己在開發什麼語言時，是使用什麼樣的開發與執行過程，比起去死記編譯式與直譯式語言還要快速且有效得多。
+總而言之，自己去思考在開發什麼語言時，用的是什麼樣的開發方式與執行過程，比起去死記編譯式與直譯式語言還要快速且有效得多。
 
 關於編譯和直譯的介紹，就先講到這裡，接下來來談談 JavaScript。
 
 ---
 
-## JavaScript 是屬於直譯式語言嗎？
+## 直譯式語言的繼續探討
 
-在講這個問題之前，我們再來看看直譯式語言本身可能產生的問題：
+接下來，我們繼續來看看直譯式語言本身可能產生的問題：
 
 ### 直譯式語言的痛點
 
@@ -144,7 +154,7 @@ sum += 1
 ...
 ```
 
-因為是每執行一次，就編譯一次，所以既耗時也耗能
+因為是每執行一次，就編譯一次，所以既耗時也耗能。
 
 除了上面這個問題以外，直譯式語言的編譯是交給直譯器 (Interpreter)，也就是上述的口說翻譯員，所以你在什麼樣的環境中執行，那麼那個環境本身就應該要有個直譯器，這也相當合理。
 
@@ -152,9 +162,9 @@ sum += 1
 
 ---
 
-## 所以 JavaScript 引擎到底是做什麼的？
+## JavaScript 引擎？
 
-在 JavaScript 的世界中，有不少用來運行並處理 JavaScript 程式碼的引擎，絕對不是只有我們常聽到的 V8 而已，除了 V8 以外，還有以下幾種 JS 引擎：
+或許你很少聽過什麼具名的直譯器，但我想你一定有聽過 JavaScript Engine，其中更常聽到的應該是 Google 所開發的 V8，不過除了 V8 以外，還有以下幾種 JS 引擎：
 
 - SpiderMonkey (Mozilla Firefox)
 - JavaScriptCore (Apple Safari)
@@ -162,22 +172,22 @@ sum += 1
 
 從上列可以看到，不同的引擎，其實也對應到不同的瀏覽器，以 SpiderMonkey 這個引擎來說，就屬 Mozilla 的 Firefox 瀏覽器所使用。而 V8 引擎大家應該都知道是屬於 Chromium 相關應用 (如 Google Chrome and Election) 或 Node.js 執行環境所使用。
 
-那麼，引擎本身就是直譯器嗎？並不完全算是，直譯器本身應該説是 JavaScript 引擎中的其中一個環節。
+那麼，引擎本身就是直譯器嗎？並不完全算是，直譯器本身應該説是 JavaScript 引擎中的其中一個環節。以下就簡單講一下當 JavaScript 被執行時，JS 引擎幫我們做了什麼樣的事。
 
-當我們基於 JS 引擎的執行環境執行一段 JavaScript 程式碼時，大致上經歷了以下幾道程序：
+下圖是大多 JS 引擎執行 JavaScript 程式碼時，所經歷的幾個階段：
 
 ![JS Engine](/media/20200330/01.png)
 (圖片取自 [淺淡 JS Engine 機制](https://medium.com/walkout/%E6%B7%BA%E6%B7%A1-js-engine-%E6%A9%9F%E5%88%B6-77391b4dd3db))
 
-現在，讓我們來一一介紹：
+現在，讓我們拆成兩個部分來看：
 
 ### 1. 從 Source Code 到 AST
 
 ![Parser](/media/20200330/02.png)
 
-首先，**Parser** 會將 JavaScript 程式碼轉為 Abstract Syntax Tree，也就是俗稱的 AST，中文為抽象語法樹，將我們的 JavaScript 做語意和詞法分析，一些 Plugin，比如說 Babel，Eslint 相關的 Plugin，就是藉由 AST 來做相對應的處理。
+首先，**Parser** 會將 JavaScript 程式碼轉為 Abstract Syntax Tree，也就是俗稱的 **AST**，中文為**抽象語法樹**，將我們的 JavaScript 做詞法和語義分析，一些 Plugin，比如說 Babel，Eslint 相關的 Plugin，就是藉由 AST 來做相對應的處理。
 
-舉例來說，Babel 在這個階段，可以針對節點去做語法修改 (比如說 ES6 的 arrow function 轉換為匿名函式)，而 ESLint Plugin 在這個時候會針對每個節點去做規則檢測。
+舉例來說，Babel 在這個階段，可以針對節點去做語法修改 (比如說 ES6 的 arrow function 轉換為 `function`)，而 ESLint Plugin 在這個時候會針對每個節點去做規則檢測。
 
 ### 2. Interpreter - 直譯器登場，不過怎麼有 Compiler?
 
@@ -191,11 +201,11 @@ AST 經由 **Interpreter** 轉換為 Bytecode 並且執行，不過有一個很�
 
 ![Interpreter](/media/20200330/04.png)
 
-JavaScript Source Code 到 AST 的流程其實是差不多的，只是 Interpreter 在 V8 中被稱為 Ignition，Compiler 被稱為 TurboFan，不過這邊還是講解一下流程：
+JavaScript Source Code 到 AST 的流程其實是差不多的，只是 Interpreter 在 V8 中被稱為 **Ignition**，Compiler 被稱為 **TurboFan**，不過這邊還是講解一下流程：
 
-當 Ignition 察覺到函式被執行一次以上，其 Bytecode 就會被傳至 TurboFan 產出最佳化 Machine Code 做快取 (這段程式碼被稱作 HotSpot)。反之，如果函式只執行了一次 (這邊我理解為第一次時)，Ignition 會直接編譯成 Bytecode，而不會交予 TurboFan。從這一點可以看出，Ignition 除了編譯以外，本身還會收集執行相關的訊息，以判斷要不要交給 TurboFan 做優化處理。
+Ignition 除了將 AST 轉化為 bytecode 之外，也負責收集資訊給 TurboFan。比如説，當 Ignition 察覺到函式被執行了 1 次以上，那麼這個資訊就會被傳至 TurboFan 產出最佳化 Machine Code 做快取 (這段程式碼被稱作 HotSpot)。反之，如果函式只執行了一次 (這邊我理解為第一次時)，Ignition 會直接編譯成 Bytecode，而不會交予 TurboFan。從這一點可以看出，Ignition 除了編譯以外，本身還會收集執行相關的訊息，以判斷要不要交給 TurboFan 做優化處理。
 
-至於圖中的紅線，其實是一種特殊的狀況，就是當同一個函式在重複執行過程時被帶入了不同的參數，且這個參數與原本處於快取機制所假想的型別不同時，就會由 De-optimize 回 Bytecode 自身來執行。
+至於圖中的紅線，其實是一種特殊的狀況，就是當同一個函式在重複執行過程時被帶入了不同的參數，且這個參數與原本處於快取機制所假想的型別不同時，就會由 De-optimize 返回 Bytecode 自身來執行。
 
 比如說前三次都執行了 `foo(1,2)`，而最後一次執行了 `foo('bar', 'baz')` 這種狀況，因為這與原本 Optimized Machine Code 定義 `foo` 只帶入 `Number` 的假想不同，故只能重回上一個階段。這種的現象就稱為 **De-optimization**。
 
@@ -223,11 +233,29 @@ In computer science, an interpreter is a computer program that directly executes
 
 如果真的要類比的話，就像你明明知道蘿蔔很常被拿來煮湯，但你不會說蘿蔔只能拿來煮湯是一樣的意思，一切就是看你想怎樣料理，事在人為嘛。
 
-## 從 Source Code 到 AST 是不是少講了什麼 [t](https://stackoverflow.com/questions/31582672/what-is-the-different-between-javascript-event-loop-and-node-js-event-loop)
+## 從 Source Code 到 AST 是不是少講了什麼 ?
 
-身為 JavaScript 開發者，或多或少應該都知道 JavaScript 的執行順序，與 Event Loop 的相關知識，那麼我們所熟知的 Call Stack 與 Callback queue 又發生在上述哪一個環節呢？
+現在，回歸到 JS Engine 一開始的執行步驟，也就是 Source Code 轉換為 AST 的階段，這階段假若還要再拆分，則會是以下幾個步驟：
 
-沒錯，就是在 Source Code 經由 Parser 解析為 AST 的過程之中，在上述的流程圖中，只有簡單講到
+1. Lexical Analyzer (詞法分析)
+2. Syntactic Analysis (語法分析)
+3. Semantic Analysis (語義分析)
+
+這邊不會講得太細，因為網路上太多資料了，這邊用一個簡單的方式來比喻：
+
+在第一個詞法分析階段，就是將你的程式碼拆成一些比較小的單位，這些單位若要更精確的描述，則可以稱之為各個 token。
+
+舉白話來比喻，比如說 `小明是一個小淘氣` 這一句，大概就會拆成：`小明`、`是`，`一個`，`小淘氣` 這樣。
+
+
+
+如果真的要描述的話，可以理解
+
+<!-- 沒錯，就是在 Source Code 經由 Parser 解析為 AST 的過程之中，在上述的流程圖中，只有簡單講到 -->
+
+在看完 [這篇](https://zhuanlan.zhihu.com/p/46993552) 文章之後，才清楚明白到，其實 V8 引擎做的就是在 Call Stack 中 function call pop up 出去之後的部分
+
+看完 [這篇](https://medium.com/edge-coders/you-dont-know-node-6515a658a1ed) 知道 Call Stack 是 V8 的一部分
 
 參考資料：
 
@@ -237,3 +265,4 @@ In computer science, an interpreter is a computer program that directly executes
 - [淺淡 JS Engine 機制](https://medium.com/walkout/%E6%B7%BA%E6%B7%A1-js-engine-%E6%A9%9F%E5%88%B6-77391b4dd3db)
 - [JavaScript engine fundamentals: Shapes and Inline Caches](https://mathiasbynens.be/notes/shapes-ics)
 - [JavaScript 引擎原理：外形与内联缓存](https://www.yexiaochen.com/%E3%80%90%E8%AF%91%E3%80%91JavaScript-engine-fundamentals-Shapes-and-Inline-Caches/)
+- [JavaScript 工作原理](https://lyn-ho.github.io/posts/b2f2d94f/)
